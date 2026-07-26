@@ -1,0 +1,12 @@
+numpy
+pandas
+scipy
+cvxpy
+clarabel
+yfinance
+
+# Not needed until Week 2/3 — install via `pip install -e ".[quantum]"` / `".[app]"` instead
+# qiskit
+# qiskit-aer
+# qiskit-optimization
+# streamlit
