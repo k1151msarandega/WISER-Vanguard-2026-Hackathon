@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vqportfolio"
+version = "0.1.0"
+description = "Vanguard WISER 2026 challenge: quantum-assisted multi-asset portfolio construction"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+    "pandas",
+    "scipy",
+    "cvxpy",
+    "clarabel",
+    "yfinance",
+]
+
+[project.optional-dependencies]
+quantum = [
+    "qiskit",
+    "qiskit-aer",
+    "qiskit-optimization",
+]
+app = [
+    "streamlit",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
