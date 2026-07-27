@@ -57,13 +57,48 @@ network access, not as a data source for real results.
 - [x] **Week 1** (Jul 14–20): data pipeline + classical Markowitz baseline,
       validated (`tests/test_baseline_sanity.py` — monotonic risk vs. risk
       aversion, zero guardrail breaches, no degenerate concentration)
-- [ ] **Week 2** (Jul 21–27): H/O/S partitioning reworked for continuous
-      binarized weights + growth/income/drawdown/cost dials; QUBO → Ising
-      conversion; first QAOA prototype (Qiskit, small O-set, p=1)
+- [x] **Week 2** (Jul 21–27): H/O/S partitioning reworked for continuous
+      binarized weights + growth/income/drawdown/cost dials
+      (`partitioning/scoring.py`, `partitioning/partition.py`); QUBO
+      formulation + QUBO→Ising conversion (`quantum/qubo.py`); QAOA
+      prototype (`quantum/qaoa_solver.py`, p=1, validated against exact
+      brute-force enumeration since the toy instance is small enough);
+      end-to-end pipeline compared once against Markowitz
+      (`pipeline.py`) — validated (`tests/test_week2_sanity.py`)
 - [ ] **Week 3** (Jul 28–Aug 3): equal-footing classical benchmarks, multi-seed
       variance reporting, walk-forward validation, scaling analysis, co-pilot
       demo skeleton
 - [ ] **Week 4** (Aug 4–7): buffer, writeup, packaging
+
+### Week 2 results (single toy instance — not a rigor claim, see caveats)
+
+- O-set: 4 assets, 3 bits each (12 objective qubits + 1 slack = 13 total)
+- QAOA (p=1) landed within ~1% of the exact optimum objective value
+  (verified by brute-force enumeration over all 2^13 combinations — feasible
+  at this size, won't scale past ~20-25 qubits; that's what Week 3's scaling
+  analysis is for)
+- Full H/O/S+QAOA portfolio: zero guardrail breaches, but ~1.4% of the
+  portfolio is unallocated (0.9857 total weight, not 1.0) — a real
+  consequence of binarized-weight discretization at 3 bits/asset, documented
+  rather than hidden
+- Not compared for "is it better than Markowitz" — Week 2's H/O/S+QAOA
+  portfolio is more conservative (lower return, lower risk) than the
+  classical baseline, which reflects the dial-weighted scoring function's
+  bias toward low-vol/high-income assets in H, not a quantum-vs-classical
+  performance claim. That comparison is Week 3's job, done properly with
+  equal-footing constraints and multiple instances.
+
+### Known simplifications to revisit in Week 3
+
+- Risk/drawdown terms in the H/O/S scoring function are per-asset (marginal),
+  not portfolio-level — fine for a conviction score deciding what's
+  confidently H/S, but not a substitute for the QUBO's actual covariance-aware
+  objective.
+- O-set cost term assumes building from cash (no turnover-vs-prior-O-weights
+  term yet) — fine for a cold-start prototype, needs revisiting once
+  walk-forward rebalancing is in scope.
+- `max_o_size=4` and `bits=3` were chosen for QAOA-prototype tractability, not
+  because that's the "right" size — Week 3's scaling analysis explores this.
 
 ## Guardrails enforced (hard constraints in the classical baseline)
 
