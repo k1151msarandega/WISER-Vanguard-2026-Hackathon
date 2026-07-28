@@ -17,6 +17,7 @@ from dataclasses import dataclass
 
 import numpy as np
 import pandas as pd
+import cvxpy as cp
 
 from vqportfolio.config import ASSET_CLASS_OF, ASSET_CLASS_CAPS
 
@@ -28,6 +29,66 @@ class PartitionConfig:
     max_o_size: int = 4        # hard cap on |O| -- keeps qubit count tractable for QAOA
     max_weight_per_asset: float = 0.25
     h_budget_cap: float = 0.70  # H can claim at most this fraction of total portfolio
+
+
+def optimize_locked_allocation(
+    mu: pd.Series,
+    sigma: pd.DataFrame,
+    cost_bps: pd.Series,
+    partition: dict,
+    config: PartitionConfig | None = None,
+    risk_aversion: float = 3.0,
+) -> tuple[pd.Series, float]:
+    """Allocate weights across H by solving the *same* mean-variance-cost
+    objective as the classical Markowitz baseline, restricted to H's
+    membership, with h_budget_cap as an upper bound (not a forced total).
+
+    This replaces water_filling_allocate as the default: water-filling
+    distributes a fixed budget proportional to score, which is fast but not
+    the solution to any actual optimization problem -- it can't tell you
+    whether spending the full h_budget_cap on these assets is even a good
+    idea. Solving the real constrained QP means H's allocation is provably
+    optimal for its own objective (given fixed membership), so any gap
+    between the full portfolio and Markowitz is attributable to
+    partitioning strategy and O's QAOA solution quality -- not to slack in
+    a heuristic H step. It also means H will naturally leave budget on the
+    table for O if H's members don't justify using the full ceiling,
+    rather than always spending exactly h_budget_cap regardless.
+
+    Returns (H weights, remaining budget for O).
+    """
+    config = config or PartitionConfig()
+    h_tickers = partition["H"]
+    n = len(h_tickers)
+    if n == 0:
+        return pd.Series(dtype=float), 1.0
+
+    mu_h = mu.loc[h_tickers].values
+    sigma_h = sigma.loc[h_tickers, h_tickers].values
+    cost_h = (cost_bps.loc[h_tickers].values) / 10_000
+
+    w = cp.Variable(n)
+    objective = cp.Maximize(mu_h @ w - risk_aversion * cp.quad_form(w, sigma_h, assume_PSD=True) - cost_h @ w)
+
+    constraints = [
+        w >= 0,
+        w <= config.max_weight_per_asset,
+        cp.sum(w) <= config.h_budget_cap,  # ceiling, not equality -- H can leave budget for O
+    ]
+    for asset_class, cap in ASSET_CLASS_CAPS.items():
+        idx = [i for i, t in enumerate(h_tickers) if ASSET_CLASS_OF[t] == asset_class]
+        if idx:
+            constraints.append(cp.sum(w[idx]) <= cap)
+
+    problem = cp.Problem(objective, constraints)
+    problem.solve(solver=cp.CLARABEL)
+
+    if problem.status not in ("optimal", "optimal_inaccurate"):
+        raise RuntimeError(f"H allocation solve failed: status={problem.status}")
+
+    h_weights = pd.Series(np.clip(w.value, 0, None), index=h_tickers)
+    o_budget = 1.0 - h_weights.sum()
+    return h_weights, o_budget
 
 
 def water_filling_allocate(
@@ -125,30 +186,36 @@ def partition_assets(
 
 
 def build_locked_allocation(
-    scores: pd.Series,
+    mu: pd.Series,
+    sigma: pd.DataFrame,
+    cost_bps: pd.Series,
     partition: dict,
     config: PartitionConfig | None = None,
+    risk_aversion: float = 3.0,
 ) -> tuple[pd.Series, float]:
-    """Water-fill weights across H, respecting per-asset and per-class caps.
-    Returns (H weights, remaining budget for O)."""
+    """Allocate weights across H. Default path: solve the constrained
+    mean-variance-cost QP over H's membership (see
+    optimize_locked_allocation) -- provably optimal for that objective,
+    not a heuristic. Returns (H weights, remaining budget for O).
+
+    water_filling_allocate() is still available directly for anyone who
+    wants the old proportional-to-score heuristic for comparison, but it's
+    no longer the default -- see the module docstring on
+    optimize_locked_allocation for why.
+    """
     config = config or PartitionConfig()
-    h_weights = water_filling_allocate(
-        scores, config.h_budget_cap, partition["H"],
-        config.max_weight_per_asset, ASSET_CLASS_CAPS,
-    )
-    o_budget = 1.0 - h_weights.sum()
-    return h_weights, o_budget
+    return optimize_locked_allocation(mu, sigma, cost_bps, partition, config, risk_aversion)
 
 
 if __name__ == "__main__":
     from vqportfolio.market_data.loader import load_prices
-    from vqportfolio.market_data.overlays import compute_returns_and_risk, synthetic_cost_and_yield
+    from vqportfolio.market_data.overlays import compute_returns_and_risk, compute_cost_and_yield
     from vqportfolio.partitioning.scoring import compute_asset_scores, per_asset_max_drawdown, Dials
     from vqportfolio.config import TICKERS
 
     prices, used_synthetic = load_prices()
     mu, sigma, log_returns = compute_returns_and_risk(prices)
-    overlay = synthetic_cost_and_yield(TICKERS, log_returns)
+    overlay = compute_cost_and_yield(TICKERS, log_returns)
     mdd = per_asset_max_drawdown(prices)
 
     dials = Dials()
@@ -156,7 +223,7 @@ if __name__ == "__main__":
 
     config = PartitionConfig()
     partition = partition_assets(scores_df["score"], config)
-    h_weights, o_budget = build_locked_allocation(scores_df["score"], partition, config)
+    h_weights, o_budget = build_locked_allocation(mu, sigma, overlay["cost_bps"], partition, config)
 
     print(f"USED_SYNTHETIC_PRICES = {used_synthetic}\n")
     print(f"H ({len(partition['H'])}): {partition['H']}")
