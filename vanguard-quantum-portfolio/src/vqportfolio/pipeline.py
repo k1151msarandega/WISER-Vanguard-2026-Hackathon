@@ -17,7 +17,7 @@ import pandas as pd
 
 from vqportfolio.config import TICKERS, ASSET_CLASS_OF, ASSET_CLASS_CAPS
 from vqportfolio.market_data.loader import load_prices
-from vqportfolio.market_data.overlays import compute_returns_and_risk, synthetic_cost_and_yield
+from vqportfolio.market_data.overlays import compute_returns_and_risk, compute_cost_and_yield
 from vqportfolio.partitioning.scoring import compute_asset_scores, per_asset_max_drawdown, Dials
 from vqportfolio.partitioning.partition import (
     partition_assets, build_locked_allocation, PartitionConfig,
@@ -47,12 +47,12 @@ def run_pipeline(
 
     prices, used_synthetic = load_prices()
     mu, sigma, log_returns = compute_returns_and_risk(prices)
-    overlay = synthetic_cost_and_yield(TICKERS, log_returns)
+    overlay = compute_cost_and_yield(TICKERS, log_returns)
     mdd = per_asset_max_drawdown(prices)
 
     scores_df = compute_asset_scores(mu, sigma, overlay["cost_bps"], overlay["yield"], mdd, dials)
     partition = partition_assets(scores_df["score"], partition_config)
-    h_weights, o_budget = build_locked_allocation(scores_df["score"], partition, partition_config)
+    h_weights, o_budget = build_locked_allocation(mu, sigma, overlay["cost_bps"], partition, partition_config)
 
     class_headroom = {}
     for asset_class, cap in ASSET_CLASS_CAPS.items():
