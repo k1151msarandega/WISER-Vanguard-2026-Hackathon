@@ -12,7 +12,7 @@ propagates into the QUBO comparison in week 2:
 from __future__ import annotations
 
 from vqportfolio.market_data.loader import load_prices
-from vqportfolio.market_data.overlays import compute_returns_and_risk, synthetic_cost_and_yield
+from vqportfolio.market_data.overlays import compute_returns_and_risk, compute_cost_and_yield
 from vqportfolio.config import TICKERS
 from vqportfolio.baseline.markowitz import solve_markowitz
 
@@ -20,7 +20,7 @@ from vqportfolio.baseline.markowitz import solve_markowitz
 def run_sanity_checks() -> None:
     prices, used_synthetic = load_prices()
     mu, sigma, log_returns = compute_returns_and_risk(prices)
-    overlay = synthetic_cost_and_yield(TICKERS, log_returns)
+    overlay = compute_cost_and_yield(TICKERS, log_returns)
 
     print(f"USED_SYNTHETIC_PRICES = {used_synthetic}")
     if used_synthetic:
