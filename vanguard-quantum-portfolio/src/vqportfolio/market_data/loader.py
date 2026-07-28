@@ -104,8 +104,61 @@ def load_prices(
         return prices, True
 
 
+def _synthetic_ohlc(tickers: list[str], start: str, end: str, seed: int = 7) -> pd.DataFrame:
+    """Synthetic OHLC: Close from the same correlated-GBM model as before,
+    High/Low simulated around it via a vol-scaled intraday range. Used only
+    as a fallback when real OHLC isn't reachable."""
+    close = _synthetic_prices(tickers, start, end, seed)
+    rng = np.random.default_rng(seed + 1)
+    daily_vol = close.pct_change().std()  # per-ticker realized daily vol
+
+    # intraday range roughly proportional to daily vol, positive by construction
+    range_frac = pd.DataFrame(
+        np.abs(rng.normal(loc=0.6, scale=0.2, size=close.shape)) * daily_vol.values,
+        index=close.index, columns=close.columns,
+    ).clip(lower=0.001)
+
+    high = close * (1 + range_frac / 2)
+    low = close * (1 - range_frac / 2)
+    return pd.concat({"Close": close, "High": high, "Low": low}, axis=1)
+
+
+def load_ohlc(
+    tickers: list[str] | None = None,
+    start: str = START_DATE,
+    end: str = END_DATE,
+) -> tuple[pd.DataFrame, bool]:
+    """Load daily High/Low/Close (needed for the Corwin-Schultz cost proxy,
+    which requires intraday range, not just closing price).
+
+    Returns (ohlc_df with MultiIndex columns (field, ticker), used_synthetic_fallback).
+    """
+    tickers = tickers or TICKERS
+    try:
+        import yfinance as yf  # noqa: F401
+
+        raw = yf.download(tickers, start=start, end=end, auto_adjust=True, progress=False)
+        if raw is None or raw.empty:
+            raise RuntimeError("yfinance returned no data")
+        needed = ["High", "Low", "Close"]
+        if not all(f in raw for f in needed):
+            raise RuntimeError("yfinance response missing High/Low/Close")
+        ohlc = raw[needed].dropna(how="all")
+        if ohlc.empty:
+            raise RuntimeError("yfinance returned an empty frame after cleaning")
+        return ohlc, False
+    except Exception:
+        ohlc = _synthetic_ohlc(tickers, start, end)
+        return ohlc, True
+
+
 if __name__ == "__main__":
     prices, used_synthetic = load_prices()
     print(f"Loaded {prices.shape[0]} days x {prices.shape[1]} tickers")
     print(f"USED_SYNTHETIC_PRICES = {used_synthetic}")
     print(prices.tail())
+
+    ohlc, used_synthetic_ohlc = load_ohlc()
+    print(f"\nUSED_SYNTHETIC_OHLC = {used_synthetic_ohlc}")
+    print(ohlc["High"].tail(2))
+    print(ohlc["Low"].tail(2))
