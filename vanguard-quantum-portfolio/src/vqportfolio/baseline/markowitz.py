@@ -100,12 +100,12 @@ def solve_markowitz(
 
 if __name__ == "__main__":
     from vqportfolio.market_data.loader import load_prices
-    from vqportfolio.market_data.overlays import compute_returns_and_risk, synthetic_cost_and_yield
+    from vqportfolio.market_data.overlays import compute_returns_and_risk, compute_cost_and_yield
     from vqportfolio.config import TICKERS
 
     prices, used_synthetic = load_prices()
     mu, sigma, log_returns = compute_returns_and_risk(prices)
-    overlay = synthetic_cost_and_yield(TICKERS, log_returns)
+    overlay = compute_cost_and_yield(TICKERS, log_returns)
 
     result = solve_markowitz(mu, sigma, overlay["cost_bps"], TICKERS)
 
