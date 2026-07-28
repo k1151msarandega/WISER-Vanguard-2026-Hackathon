@@ -140,21 +140,21 @@ def build_o_set_qubo(
 
 if __name__ == "__main__":
     from vqportfolio.market_data.loader import load_prices
-    from vqportfolio.market_data.overlays import compute_returns_and_risk, synthetic_cost_and_yield
+    from vqportfolio.market_data.overlays import compute_returns_and_risk, compute_cost_and_yield
     from vqportfolio.partitioning.scoring import compute_asset_scores, per_asset_max_drawdown, Dials
     from vqportfolio.partitioning.partition import partition_assets, build_locked_allocation, PartitionConfig
     from vqportfolio.config import TICKERS, ASSET_CLASS_OF, ASSET_CLASS_CAPS
 
     prices, used_synthetic = load_prices()
     mu, sigma, log_returns = compute_returns_and_risk(prices)
-    overlay = synthetic_cost_and_yield(TICKERS, log_returns)
+    overlay = compute_cost_and_yield(TICKERS, log_returns)
     mdd = per_asset_max_drawdown(prices)
 
     dials = Dials()
     scores_df = compute_asset_scores(mu, sigma, overlay["cost_bps"], overlay["yield"], mdd, dials)
     pconfig = PartitionConfig()
     partition = partition_assets(scores_df["score"], pconfig)
-    h_weights, o_budget = build_locked_allocation(scores_df["score"], partition, pconfig)
+    h_weights, o_budget = build_locked_allocation(mu, sigma, overlay["cost_bps"], partition, pconfig)
 
     # headroom left in each class after H is locked
     class_headroom = {}
