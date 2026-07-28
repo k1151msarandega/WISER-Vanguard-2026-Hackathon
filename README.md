@@ -70,35 +70,69 @@ network access, not as a data source for real results.
       demo skeleton
 - [ ] **Week 4** (Aug 4–7): buffer, writeup, packaging
 
-### Week 2 results (single toy instance — not a rigor claim, see caveats)
+### Post-audit fixes (post-Week-2, pre-Week-3)
 
-- O-set: 4 assets, 3 bits each (12 objective qubits + 1 slack = 13 total)
-- QAOA (p=1) landed within ~1% of the exact optimum objective value
-  (verified by brute-force enumeration over all 2^13 combinations — feasible
-  at this size, won't scale past ~20-25 qubits; that's what Week 3's scaling
-  analysis is for)
-- Full H/O/S+QAOA portfolio: zero guardrail breaches, but ~1.4% of the
-  portfolio is unallocated (0.9857 total weight, not 1.0) — a real
-  consequence of binarized-weight discretization at 3 bits/asset, documented
-  rather than hidden
-- Not compared for "is it better than Markowitz" — Week 2's H/O/S+QAOA
-  portfolio is more conservative (lower return, lower risk) than the
-  classical baseline, which reflects the dial-weighted scoring function's
-  bias toward low-vol/high-income assets in H, not a quantum-vs-classical
-  performance claim. That comparison is Week 3's job, done properly with
-  equal-footing constraints and multiple instances.
+Before moving to Week 3, we did a critical audit of Week 2 rather than assume
+it was ready to build on. Five real issues were found and fixed — not just
+documented as caveats:
 
-### Known simplifications to revisit in Week 3
+1. **Real cost data.** `cost_bps` now comes from the actual Corwin-Schultz
+   (2012) high-low spread estimator run on real OHLC data (`load_ohlc()` +
+   `corwin_schultz_spread()` in `market_data/overlays.py`), not a crude
+   vol-scaled guess. Falls back to the old heuristic only per-ticker, only
+   if OHLC is unreachable or degenerate.
+2. **Real yield data.** `yield` now comes from yfinance's real trailing
+   dividend yield (`fetch_real_yield()`), not a randomly sampled band. A
+   guard against "all yields came back zero" catches the offline case
+   without misclassifying legitimately zero-yield assets (GLD, USO, currency
+   ETFs) as failures.
+3. **Dial conflation fixed.** The `drawdown` dial previously applied its
+   full weight to *both* variance and max-drawdown silently — moving one
+   dial secretly moved two things. `Dials.drawdown_variance_share` now makes
+   that split explicit and documented (`partitioning/scoring.py`).
+4. **H allocation is now a real optimization, not a heuristic.**
+   `water_filling_allocate()` (proportional-to-score heuristic) is no longer
+   the default. `optimize_locked_allocation()` solves the same
+   mean-variance-cost QP as the Markowitz baseline, restricted to H's
+   membership, with the budget as a ceiling (not a forced total) — provably
+   optimal for its own objective, and it can leave H's members at zero
+   weight if that's genuinely optimal (something water-filling could never
+   do; see `partitioning/partition.py`).
+5. **QAOA reliability fixed.** An 8-seed sweep on the old single-seed
+   random-init QAOA found 5 exact-optimum hits and 1 catastrophic failure
+   (objective gap of 1.07, ~60x worse than the "good" seeds) — the original
+   Week 2 result was a lucky seed, not a representative one. Replaced with
+   **warm-start QAOA** (initial quantum state biased toward a classical
+   relaxation of the QUBO, via `relax_and_warm_start()`) + **multi-restart**
+   (best-of-3). Note: we deliberately did *not* adopt the XY-mixer/
+   Dicke-state constrained-mixer approach flagged in the Week 2 literature
+   review — that technique fits cardinality-selection problems (choose K of
+   N), not our binarized-continuous-weight encoding, and copying it in
+   anyway would have been cutting a different corner. Post-fix spot check
+   (3 seeds): 0/3 failures, all exact-optimum. Not a full statistical claim
+   (each solve takes ~1-2 min at practical settings) — a proper multi-seed
+   variance analysis is Week 3's job as a batch run.
 
-- Risk/drawdown terms in the H/O/S scoring function are per-asset (marginal),
-  not portfolio-level — fine for a conviction score deciding what's
-  confidently H/S, but not a substitute for the QUBO's actual covariance-aware
-  objective.
+### Known simplifications still open (deliberate, not hidden)
+
+- Risk/drawdown terms in the H/O/S *scoring* function (which asset ranks
+  where, before allocation) are still per-asset (marginal), not
+  portfolio-level — a conviction score, not a substitute for the QUBO's
+  actual covariance-aware objective or H's now-optimized allocation.
 - O-set cost term assumes building from cash (no turnover-vs-prior-O-weights
   term yet) — fine for a cold-start prototype, needs revisiting once
   walk-forward rebalancing is in scope.
-- `max_o_size=4` and `bits=3` were chosen for QAOA-prototype tractability, not
-  because that's the "right" size — Week 3's scaling analysis explores this.
+- `max_o_size=4` and `bits=3` were chosen for brute-force-validation
+  convenience during prototyping, not because that's the "right" size for
+  the real (larger, real-data) universe — Week 3's scaling analysis and the
+  eventual real-data run should pick this deliberately.
+- The brief separately lists "Diversification," "Liquidity," and "Sector or
+  exposure limits" as distinct constraint types (see the actual challenge
+  brief). We only implement asset-class-level caps — literal liquidity
+  constraints and finer sector granularity aren't in yet.
+- AI-assistance disclosure for the submission is still open — see the
+  brief's explicit requirement that AI tool use be documented and all
+  submitted work defensible as the team's own.
 
 ## Guardrails enforced (hard constraints in the classical baseline)
 
