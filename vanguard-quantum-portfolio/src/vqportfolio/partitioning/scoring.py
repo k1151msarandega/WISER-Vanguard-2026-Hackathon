@@ -28,14 +28,28 @@ import pandas as pd
 
 @dataclass(frozen=True)
 class Dials:
-    """User-facing tunable goals. Values are relative weights, not required
-    to sum to 1 -- they get z-scored components combined linearly, so only
-    relative magnitude matters."""
+    """User-facing tunable goals, matching the brief's exact four: growth,
+    income, drawdown control, cost sensitivity. Values are relative weights,
+    not required to sum to 1 -- they get z-scored components combined
+    linearly, so only relative magnitude matters."""
     growth: float = 1.0
     income: float = 0.5
     drawdown: float = 1.0
     cost: float = 0.5
     stability: float = 0.3  # preference for keeping existing holdings (turnover-aversion)
+
+    # The brief specifies exactly four user-facing dials -- no separate
+    # "risk" dial -- so variance and historical max-drawdown are both
+    # folded under the single `drawdown` dial. Previously both terms
+    # silently used the *same* coefficient, which meant "drawdown control"
+    # secretly moved variance-aversion too, by an amount the user never
+    # chose. This makes that split explicit and independently tunable
+    # instead of hidden: drawdown_variance_share=0.5 means the drawdown
+    # dial's effect is split evenly between penalizing variance and
+    # penalizing historical max drawdown; move it toward 1.0 to make the
+    # dial behave more like a pure variance-aversion knob, toward 0.0 to
+    # make it behave more like a pure tail/drawdown-aversion knob.
+    drawdown_variance_share: float = 0.5
 
 
 def _zscore(s: pd.Series) -> pd.Series:
@@ -81,10 +95,10 @@ def compute_asset_scores(
 
     score = (
         dials.growth * z_growth
-        - dials.drawdown * z_risk  # variance is part of "risk," folded into drawdown-control dial's spirit
+        - dials.drawdown * dials.drawdown_variance_share * z_risk
         - dials.cost * z_cost
         + dials.income * z_income
-        - dials.drawdown * z_drawdown
+        - dials.drawdown * (1 - dials.drawdown_variance_share) * z_drawdown
         + dials.stability * z_stability
     )
 
@@ -101,12 +115,12 @@ def compute_asset_scores(
 
 if __name__ == "__main__":
     from vqportfolio.market_data.loader import load_prices
-    from vqportfolio.market_data.overlays import compute_returns_and_risk, synthetic_cost_and_yield
+    from vqportfolio.market_data.overlays import compute_returns_and_risk, compute_cost_and_yield
     from vqportfolio.config import TICKERS
 
     prices, used_synthetic = load_prices()
     mu, sigma, log_returns = compute_returns_and_risk(prices)
-    overlay = synthetic_cost_and_yield(TICKERS, log_returns)
+    overlay = compute_cost_and_yield(TICKERS, log_returns)
     mdd = per_asset_max_drawdown(prices)
 
     dials = Dials()
