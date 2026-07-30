@@ -17,6 +17,7 @@ import pandas as pd
 import cvxpy as cp
 
 from vqportfolio.config import ASSET_CLASS_OF, ASSET_CLASS_CAPS
+from vqportfolio.market_data.risk_free_rate import current_risk_free_rate
 
 
 def solve_markowitz(
@@ -88,10 +89,19 @@ def solve_markowitz(
 
     realized_turnover = float(np.abs(weights.values - prev_w).sum())
 
+    expected_return = float(mu_vec @ weights.values)
+    risk_variance = float(weights.values @ sigma_mat @ weights.values)
+    rf_rate, rf_used_fallback = current_risk_free_rate()
+    volatility = np.sqrt(risk_variance)
+    sharpe_ratio = (expected_return - rf_rate) / volatility if volatility > 1e-12 else float("nan")
+
     return {
         "weights": weights,
-        "expected_return": float(mu_vec @ weights.values),
-        "risk_variance": float(weights.values @ sigma_mat @ weights.values),
+        "expected_return": expected_return,
+        "risk_variance": risk_variance,
+        "sharpe_ratio": sharpe_ratio,
+        "risk_free_rate": rf_rate,
+        "risk_free_rate_is_fallback": rf_used_fallback,  # True = cached FRED value, not live
         "turnover": realized_turnover,
         "guardrail_breaches": breaches,  # should be {} -- solver enforces caps as hard constraints
         "solver_status": problem.status,
@@ -113,6 +123,9 @@ if __name__ == "__main__":
     print("Solver status:", result["solver_status"])
     print(f"Expected return: {result['expected_return']:.4f}")
     print(f"Risk (variance): {result['risk_variance']:.4f}")
+    print(f"Sharpe ratio: {result['sharpe_ratio']:.4f}  "
+          f"(rf={result['risk_free_rate']:.4%}, "
+          f"{'FALLBACK' if result['risk_free_rate_is_fallback'] else 'live FRED'})")
     print(f"Turnover: {result['turnover']:.4f}")
     print(f"Guardrail breaches: {result['guardrail_breaches']}\n")
     print("Weights:")
