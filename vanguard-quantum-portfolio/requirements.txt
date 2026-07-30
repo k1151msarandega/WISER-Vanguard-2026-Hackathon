@@ -4,6 +4,8 @@ scipy
 cvxpy
 clarabel
 yfinance
+duckdb
+pyarrow
 
 # Not needed until Week 2/3 — install via `pip install -e ".[quantum]"` / `".[app]"` instead
 # qiskit
