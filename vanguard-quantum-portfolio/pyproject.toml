@@ -14,6 +14,8 @@ dependencies = [
     "cvxpy",
     "clarabel",
     "yfinance",
+    "duckdb",
+    "pyarrow",
 ]
 
 [project.optional-dependencies]
