@@ -15,7 +15,11 @@ class AssetMeta:
     ticker: str
     asset_class: str      # top-level bucket used for sector/exposure guardrails
     sub_class: str        # finer label, useful for explainability narratives
-    liquidity_tier: int    # 1 = most liquid (broad index ETFs) .. 3 = least liquid
+    liquidity_tier: int    # 1=most liquid .. 3=least. HAND-GUESSED, fallback only --
+                            # real tiers are now computed from actual average
+                            # daily dollar volume in market_data/liquidity.py;
+                            # this static guess is used only when real OHLCV
+                            # itself is unavailable (synthetic fallback case).
 
 
 # NOTE: this list is deliberately ~18 tickers (not 50+). Vanguard's brief cares
@@ -32,7 +36,9 @@ UNIVERSE: list[AssetMeta] = [
     AssetMeta("IEF", "Fixed Income", "Treasuries (Mid)", 1),
     AssetMeta("TLT", "Fixed Income", "Treasuries (Long)", 1),
     AssetMeta("LQD", "Fixed Income", "Investment Grade Credit", 1),
-    AssetMeta("HYG", "Fixed Income", "High Yield Credit", 2),
+    AssetMeta("JNK", "Fixed Income", "High Yield Credit", 2),  # substituted for HYG: same asset class
+                                                                # (high-yield corporate credit), HYG has
+                                                                # no coverage in the HF dataset, JNK does
 
     # --- Commodities ---
     AssetMeta("GLD", "Commodities", "Gold", 1),
