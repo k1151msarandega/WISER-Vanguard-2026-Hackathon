@@ -10,6 +10,14 @@ yfinance isn't reachable (e.g. in a sandboxed environment).
 The fallback is NOT meant to be the final data source for the actual
 submission -- run this locally with internet access so USED_SYNTHETIC_PRICES
 comes back False before you generate any results you plan to report.
+
+load_ohlc() additionally sources from the defeatbeta/yahoo-finance-data
+dataset on Hugging Face (queried via DuckDB with predicate pushdown -- no
+full-file download) for the subset of tickers it actually covers, since it
+gives longer, real history than yfinance for those specific tickers. Schema
+and data quality were verified by hand before writing this (DESCRIBE query
+confirmed columns; a >15%-single-day-move sweep + a direct look at USO's
+April 2020 reverse-split date confirmed `close` is split-adjusted, not raw).
 """
 
 from __future__ import annotations
@@ -29,6 +37,10 @@ _CLASS_DRIFT_VOL = {
     "Currencies": (0.01, 0.08),
     "Alternatives": (0.06, 0.18),
 }
+
+# Confirmed via direct DuckDB query against the real dataset (not assumed).
+HF_PARQUET_URL = "https://huggingface.co/datasets/defeatbeta/yahoo-finance-data/resolve/main/data/stock_prices.parquet"
+HF_COVERED_TICKERS = {"SPY", "IWM", "GLD", "DBC", "USO", "UUP", "FXE", "TLT", "JNK"}
 
 
 def _synthetic_prices(tickers: list[str], start: str, end: str, seed: int = 7) -> pd.DataFrame:
@@ -105,9 +117,15 @@ def load_prices(
 
 
 def _synthetic_ohlc(tickers: list[str], start: str, end: str, seed: int = 7) -> pd.DataFrame:
-    """Synthetic OHLC: Close from the same correlated-GBM model as before,
-    High/Low simulated around it via a vol-scaled intraday range. Used only
-    as a fallback when real OHLC isn't reachable."""
+    """Synthetic OHLCV: Close from the same correlated-GBM model as before,
+    High/Low simulated around it via a vol-scaled intraday range, Volume
+    drawn from a per-ticker lognormal base rate. Used only as a fallback
+    when real OHLCV isn't reachable -- and note Volume here is NOT used to
+    derive liquidity tiers (that would be circular: synthetic volume
+    encodes no real liquidity information). See
+    market_data.liquidity.compute_liquidity_tiers for how the fallback
+    there is handled honestly.
+    """
     close = _synthetic_prices(tickers, start, end, seed)
     rng = np.random.default_rng(seed + 1)
     daily_vol = close.pct_change().std()  # per-ticker realized daily vol
@@ -120,7 +138,67 @@ def _synthetic_ohlc(tickers: list[str], start: str, end: str, seed: int = 7) -> 
 
     high = close * (1 + range_frac / 2)
     low = close * (1 - range_frac / 2)
-    return pd.concat({"Close": close, "High": high, "Low": low}, axis=1)
+
+    # arbitrary per-ticker base volume level, no real liquidity signal
+    base_volume = rng.lognormal(mean=15, sigma=1.5, size=len(tickers))
+    volume = pd.DataFrame(
+        rng.lognormal(mean=0, sigma=0.3, size=close.shape) * base_volume,
+        index=close.index, columns=close.columns,
+    ).round()
+
+    return pd.concat({"Close": close, "High": high, "Low": low, "Volume": volume}, axis=1)
+
+
+def _load_from_hf(tickers: list[str], start: str, end: str) -> pd.DataFrame | None:
+    """Query the real HF/DuckDB dataset for whichever of `tickers` it
+    covers. Returns None (not a partial frame) if duckdb isn't installed or
+    the query fails outright -- callers fall back to yfinance/synthetic for
+    everything in that case, rather than silently mixing an empty result in."""
+    candidates = [t for t in tickers if t in HF_COVERED_TICKERS]
+    if not candidates:
+        return None
+    try:
+        import duckdb
+
+        tickers_sql = ",".join(f"'{t}'" for t in candidates)
+        query = f"""
+            SELECT symbol, report_date, open, close, high, low, volume
+            FROM '{HF_PARQUET_URL}'
+            WHERE symbol IN ({tickers_sql})
+              AND report_date >= '{start}' AND report_date <= '{end}'
+            ORDER BY report_date
+        """
+        df = duckdb.sql(query).df()
+        if df.empty:
+            return None
+        df["report_date"] = pd.to_datetime(df["report_date"])
+        df = df.set_index(["report_date", "symbol"])[["open", "close", "high", "low", "volume"]]
+        df.columns = ["Open", "Close", "High", "Low", "Volume"]
+        pivoted = df.unstack("symbol")
+        pivoted.index.name = None
+        return pivoted
+    except Exception:
+        return None
+
+
+def _load_ohlc_yfinance(tickers: list[str], start: str, end: str) -> pd.DataFrame | None:
+    """yfinance path for a given ticker subset. Returns None (not raising)
+    on any failure -- callers treat that as "fall through to synthetic"."""
+    if not tickers:
+        return None
+    try:
+        import yfinance as yf
+
+        raw = yf.download(tickers, start=start, end=end, auto_adjust=True, progress=False)
+        if raw is None or raw.empty:
+            return None
+        needed = ["High", "Low", "Close", "Volume"]
+        if not all(f in raw for f in needed):
+            return None
+        ohlc = raw[needed].dropna(how="all")
+        return ohlc if not ohlc.empty else None
+    except Exception:
+        return None
 
 
 def load_ohlc(
@@ -128,28 +206,59 @@ def load_ohlc(
     start: str = START_DATE,
     end: str = END_DATE,
 ) -> tuple[pd.DataFrame, bool]:
-    """Load daily High/Low/Close (needed for the Corwin-Schultz cost proxy,
-    which requires intraday range, not just closing price).
+    """Load daily High/Low/Close/Volume, hybrid-sourced: HF/DuckDB for
+    tickers it covers (real, longer history), yfinance for the rest,
+    synthetic as a last resort for anything neither source provides.
 
-    Returns (ohlc_df with MultiIndex columns (field, ticker), used_synthetic_fallback).
+    Returns (ohlcv_df, any_ticker_used_synthetic) -- kept as a single bool
+    for backward compatibility with every existing caller. For the full
+    per-ticker breakdown (which source each ticker actually came from), use
+    load_ohlc_with_sources() instead.
     """
-    tickers = tickers or TICKERS
-    try:
-        import yfinance as yf  # noqa: F401
+    ohlcv, sources = load_ohlc_with_sources(tickers, start, end)
+    any_synthetic = any(s == "synthetic" for s in sources.values())
+    return ohlcv, any_synthetic
 
-        raw = yf.download(tickers, start=start, end=end, auto_adjust=True, progress=False)
-        if raw is None or raw.empty:
-            raise RuntimeError("yfinance returned no data")
-        needed = ["High", "Low", "Close"]
-        if not all(f in raw for f in needed):
-            raise RuntimeError("yfinance response missing High/Low/Close")
-        ohlc = raw[needed].dropna(how="all")
-        if ohlc.empty:
-            raise RuntimeError("yfinance returned an empty frame after cleaning")
-        return ohlc, False
-    except Exception:
-        ohlc = _synthetic_ohlc(tickers, start, end)
-        return ohlc, True
+
+def load_ohlc_with_sources(
+    tickers: list[str] | None = None,
+    start: str = START_DATE,
+    end: str = END_DATE,
+) -> tuple[pd.DataFrame, dict[str, str]]:
+    """Same as load_ohlc() but returns the full per-ticker source map
+    ('hf' | 'yfinance' | 'synthetic') instead of a single collapsed bool."""
+    tickers = tickers or TICKERS
+    sources: dict[str, str] = {}
+    pieces: list[pd.DataFrame] = []
+
+    hf_df = _load_from_hf(tickers, start, end)
+    hf_tickers_got = []
+    if hf_df is not None:
+        hf_tickers_got = [t for t in tickers if ("Close", t) in hf_df.columns]
+        if hf_tickers_got:
+            pieces.append(hf_df[[c for c in hf_df.columns if c[1] in hf_tickers_got]])
+            for t in hf_tickers_got:
+                sources[t] = "hf"
+
+    remaining = [t for t in tickers if t not in sources]
+    yf_df = _load_ohlc_yfinance(remaining, start, end) if remaining else None
+    yf_tickers_got = []
+    if yf_df is not None:
+        yf_tickers_got = [t for t in remaining if ("Close", t) in yf_df.columns]
+        if yf_tickers_got:
+            pieces.append(yf_df)
+            for t in yf_tickers_got:
+                sources[t] = "yfinance"
+
+    still_missing = [t for t in tickers if t not in sources]
+    if still_missing:
+        synth = _synthetic_ohlc(still_missing, start, end)
+        pieces.append(synth)
+        for t in still_missing:
+            sources[t] = "synthetic"
+
+    combined = pd.concat(pieces, axis=1).sort_index(axis=1)
+    return combined, sources
 
 
 if __name__ == "__main__":
@@ -158,7 +267,11 @@ if __name__ == "__main__":
     print(f"USED_SYNTHETIC_PRICES = {used_synthetic}")
     print(prices.tail())
 
-    ohlc, used_synthetic_ohlc = load_ohlc()
-    print(f"\nUSED_SYNTHETIC_OHLC = {used_synthetic_ohlc}")
+    ohlc, sources = load_ohlc_with_sources()
+    print(f"\nSource breakdown: { {s: list(sources.values()).count(s) for s in set(sources.values())} }")
+    for t in sorted(sources, key=lambda t: sources[t]):
+        print(f"  {t}: {sources[t]}")
+    print()
     print(ohlc["High"].tail(2))
     print(ohlc["Low"].tail(2))
+    print(ohlc["Volume"].tail(2))
