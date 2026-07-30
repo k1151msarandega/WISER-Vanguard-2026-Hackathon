@@ -54,12 +54,36 @@ LIQUIDITY_TIER_OF: dict[str, int] = {a.ticker: a.liquidity_tier for a in UNIVERS
 
 # Sector/asset-class exposure guardrails (max weight per asset class).
 # These are the "guardrail breaches" metric Vanguard's rubric asks us to report.
+#
+# Equities and Fixed Income caps are grounded in Vanguard's own published
+# LifeStrategy fund family (fact sheets, June 30 2026, fetched directly from
+# workplace.vanguard.com/.../fact-sheet/F0122.pdf, F0724.pdf, F0723.pdf, plus
+# a search-confirmed snapshot of F0914) -- their four real balanced funds
+# span the full range Vanguard itself is willing to hold:
+#
+#   Fund                              Ticker  Stock   Bond
+#   LifeStrategy Income                VASIX   20%     80%
+#   LifeStrategy Conservative Growth   VSCGX   ~41%    ~59%
+#   LifeStrategy Moderate Growth       VSMGX   ~61%    ~39%   (current holdings)
+#   LifeStrategy Growth                VASGX   80%     20%
+#
+# Our PREVIOUS caps (Equities 60%, Fixed Income 55%) were tighter than what
+# Vanguard's own real, most conservative fund (80% bonds) or most aggressive
+# fund (80% stocks) actually holds -- i.e. they'd have blocked us from ever
+# replicating Vanguard's own real Income or Growth fund postures. Widened to
+# 80% for both to match the real observed range.
+#
+# Commodities, Currencies, and Alternatives caps remain REASONED JUDGMENT
+# CALLS, not data-grounded -- Vanguard's core LifeStrategy/balanced-fund
+# lineup is stocks-and-bonds only and doesn't hold these asset classes at
+# all, so there is no real Vanguard policy document to calibrate against.
+# This is a genuine, searched-for-and-confirmed gap, not an oversight.
 ASSET_CLASS_CAPS: dict[str, float] = {
-    "Equities": 0.60,
-    "Fixed Income": 0.55,
-    "Commodities": 0.20,
-    "Currencies": 0.15,
-    "Alternatives": 0.20,
+    "Equities": 0.80,       # grounded: VASGX (LifeStrategy Growth) target
+    "Fixed Income": 0.80,   # grounded: VASIX (LifeStrategy Income) target
+    "Commodities": 0.20,    # judgment call -- no real Vanguard product to calibrate against
+    "Currencies": 0.15,     # judgment call -- no real Vanguard product to calibrate against
+    "Alternatives": 0.20,   # judgment call -- no real Vanguard product to calibrate against
 }
 
 # History window for price pulls.
