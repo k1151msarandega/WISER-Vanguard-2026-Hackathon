@@ -76,18 +76,6 @@ An explicit hunt to replace hardcoded/invented values with real, cited data
 before continuing further. Not everything closed — documented honestly below.
 
 **Closed:**
-- **Real OHLCV, 9 of 15 tickers** (SPY, IWM, GLD, DBC, USO, UUP, FXE, TLT,
-  JNK) via `defeatbeta/yahoo-finance-data` on Hugging Face, queried directly
-  with DuckDB (predicate pushdown, no full-file download needed). Long real
-  history (some back to 1996), updated through 2026-07-27. **JNK replaces
-  HYG** in the universe — same asset class (high-yield corporate credit),
-  substituted because HYG isn't in this dataset's coverage.
-- **Remaining 6 tickers** (EFA, EEM, IEF, LQD, VNQ, VNQI) — confirmed not in
-  the HF dataset (checked directly, plus 15 plausible substitutes, only 1
-  hit) and not on FRED (confirmed: FRED's "ETF" tag covers macro/spread
-  series thematically adjacent to ETF categories, not actual fund
-  price/NAV data — checked directly, no real series exists for these
-  tickers). yfinance remains the fallback path for these six.
 - **Real risk-free rate**: FRED `DGS3MO`, `market_data/risk_free_rate.py`.
   Live pull when reachable; cached fallback is a real cited value (3.70% as
   of 2026-05-12), not invented. Wired into `solve_markowitz()` — the
@@ -101,16 +89,49 @@ before continuing further. Not everything closed — documented honestly below.
   Growth funds) to 80%/80%, matching the real observed range. Also wired
   into `pipeline.py`'s reporting via `nearest_lifestrategy_fund()` — every
   portfolio now reports which real Vanguard fund it most resembles.
+- **Real liquidity tiers**: `market_data/liquidity.py`, `compute_liquidity_tiers()`.
+  Computed from real average daily *dollar* volume (Volume × Close, the
+  standard cross-asset liquidity normalization), tercile-bucketed within
+  our own 15-asset universe. `config.py`'s old hand-guessed tiers are now
+  fallback-only (used only when the underlying OHLCV is itself synthetic --
+  computing "real" tiers from synthetic volume would carry no real signal
+  and just add a layer of false confidence). Wired into `overlays.py`'s
+  Corwin-Schultz fallback path and exposed directly as a `liquidity_tier`
+  column in the main cost/yield overlay.
+
+- **HF/DuckDB dataset** (`defeatbeta/yahoo-finance-data`), `market_data/loader.py`,
+  `load_ohlc()` / `load_ohlc_with_sources()`. Hybrid sourcing: HF/DuckDB
+  (queried directly via predicate pushdown, no full-file download) for the
+  9 tickers it covers (SPY, IWM, GLD, DBC, USO, UUP, FXE, TLT,
+  JNK-replacing-HYG — real history back to 1996 in some cases, updated
+  through 2026-07-27), yfinance for the remaining 6 (EFA, EEM, IEF, LQD,
+  VNQ, VNQI), synthetic only as a last resort for whatever neither source
+  provides. `load_ohlc()` keeps its original `(df, bool)` signature for
+  backward compatibility; `load_ohlc_with_sources()` exposes the full
+  per-ticker breakdown ('hf'/'yfinance'/'synthetic') for transparency.
+  Schema and data quality were verified by hand before writing any parsing
+  code, not assumed: a `DESCRIBE` query confirmed the real column names
+  (`symbol, report_date, open, close, high, low, volume`), a >15%
+  single-day-move sweep across all 9 tickers flagged only USO around the
+  March/April 2020 oil crash, and a direct look at USO's close price
+  through its actual April 2020 reverse-split date showed a smooth
+  progression with no ~8x discontinuity — confirming `close` is
+  split-adjusted, not raw, before trusting it in returns/volatility
+  calculations. The merge/pivot logic itself was tested against a local
+  mock file matching the confirmed schema before being pointed at the real
+  dataset, since this sandbox can't reach huggingface.co to test the real
+  path directly.
+- One thing to actually check once this runs with real internet access (not
+  verifiable from here): HF and yfinance are independent sources merged via
+  an outer join on date -- worth confirming there's no meaningful date-range
+  or trading-calendar mismatch at the boundary between HF-sourced and
+  yfinance-sourced tickers before trusting cross-asset covariance numbers.
 
 **Explicitly NOT closed, not glossed over:**
 - Commodities/Currencies/Alternatives caps (20%/15%/20%) remain **reasoned
   judgment calls**. Vanguard's own core balanced-fund lineup doesn't hold
   these asset classes at all, so there is no real Vanguard policy document
   to calibrate against — confirmed by checking, not assumed.
-- Liquidity tiers in `config.py` are still hand-assigned, not yet computed
-  from real trading volume (we have real Volume data now via the HF
-  dataset/yfinance — this is a straightforward follow-up, not blocked on
-  finding new data).
 
 ### Post-audit fixes (post-Week-2, pre-Week-3)
 
