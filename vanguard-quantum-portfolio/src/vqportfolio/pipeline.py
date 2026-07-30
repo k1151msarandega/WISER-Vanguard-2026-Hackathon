@@ -25,6 +25,7 @@ from vqportfolio.partitioning.partition import (
 from vqportfolio.quantum.qubo import build_o_set_qubo
 from vqportfolio.quantum.qaoa_solver import solve_with_qaoa_and_validate
 from vqportfolio.baseline.markowitz import solve_markowitz
+from vqportfolio.market_data.vanguard_calibration import nearest_lifestrategy_fund
 
 
 @dataclass
@@ -91,9 +92,12 @@ def run_pipeline(
 
 def portfolio_stats(weights: pd.Series, mu: pd.Series, sigma: pd.DataFrame) -> dict:
     w = weights.values
+    equity_weight = float(weights[[t for t in weights.index if ASSET_CLASS_OF[t] == "Equities"]].sum())
     return {
         "expected_return": float(mu.values @ w),
         "risk_variance": float(w @ sigma.values @ w),
+        "equity_weight": equity_weight,
+        "nearest_vanguard_fund": nearest_lifestrategy_fund(equity_weight),
         "guardrail_breaches": {
             ac: round(weights[[t for t in weights.index if ASSET_CLASS_OF[t] == ac]].sum() - cap, 4)
             for ac, cap in ASSET_CLASS_CAPS.items()
@@ -118,12 +122,21 @@ if __name__ == "__main__":
     print("=== H/O/S + QAOA (full portfolio) ===")
     print(f"Expected return: {hos_stats['expected_return']:.4f}")
     print(f"Risk (variance): {hos_stats['risk_variance']:.5f}")
+    print(f"Equity weight: {hos_stats['equity_weight']:.1%}  -> resembles Vanguard's "
+          f"{hos_stats['nearest_vanguard_fund'].name} ({hos_stats['nearest_vanguard_fund'].ticker}, "
+          f"{hos_stats['nearest_vanguard_fund'].total_stock_pct:.0f}% stock)")
     print(f"Guardrail breaches: {hos_stats['guardrail_breaches']}")
     print(f"Sum of weights: {result.qaoa_full_weights.sum():.4f}\n")
 
+    mw_equity_weight = float(mw["weights"][[t for t in mw["weights"].index if ASSET_CLASS_OF[t] == "Equities"]].sum())
+    mw_nearest = nearest_lifestrategy_fund(mw_equity_weight)
     print("=== Classical Markowitz (full universe, same constraints) ===")
     print(f"Expected return: {mw['expected_return']:.4f}")
     print(f"Risk (variance): {mw['risk_variance']:.5f}")
+    print(f"Sharpe ratio: {mw['sharpe_ratio']:.4f} (rf={mw['risk_free_rate']:.4%}, "
+          f"{'FALLBACK' if mw['risk_free_rate_is_fallback'] else 'live FRED'})")
+    print(f"Equity weight: {mw_equity_weight:.1%}  -> resembles Vanguard's "
+          f"{mw_nearest.name} ({mw_nearest.ticker}, {mw_nearest.total_stock_pct:.0f}% stock)")
     print(f"Guardrail breaches: {mw['guardrail_breaches']}\n")
 
     print("Side-by-side weights:")
