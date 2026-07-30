@@ -70,6 +70,48 @@ network access, not as a data source for real results.
       demo skeleton
 - [ ] **Week 4** (Aug 4–7): buffer, writeup, packaging
 
+### Real data sourcing (post-Week-2)
+
+An explicit hunt to replace hardcoded/invented values with real, cited data
+before continuing further. Not everything closed — documented honestly below.
+
+**Closed:**
+- **Real OHLCV, 9 of 15 tickers** (SPY, IWM, GLD, DBC, USO, UUP, FXE, TLT,
+  JNK) via `defeatbeta/yahoo-finance-data` on Hugging Face, queried directly
+  with DuckDB (predicate pushdown, no full-file download needed). Long real
+  history (some back to 1996), updated through 2026-07-27. **JNK replaces
+  HYG** in the universe — same asset class (high-yield corporate credit),
+  substituted because HYG isn't in this dataset's coverage.
+- **Remaining 6 tickers** (EFA, EEM, IEF, LQD, VNQ, VNQI) — confirmed not in
+  the HF dataset (checked directly, plus 15 plausible substitutes, only 1
+  hit) and not on FRED (confirmed: FRED's "ETF" tag covers macro/spread
+  series thematically adjacent to ETF categories, not actual fund
+  price/NAV data — checked directly, no real series exists for these
+  tickers). yfinance remains the fallback path for these six.
+- **Real risk-free rate**: FRED `DGS3MO`, `market_data/risk_free_rate.py`.
+  Live pull when reachable; cached fallback is a real cited value (3.70% as
+  of 2026-05-12), not invented. Wired into `solve_markowitz()` — the
+  baseline now reports a real Sharpe ratio.
+- **Real guardrail calibration**: `market_data/vanguard_calibration.py`
+  contains Vanguard's own published LifeStrategy fund family (Income 20/80,
+  Conservative Growth ~41/59, Moderate Growth ~61/39, Growth 80/20 —
+  stock/bond), fetched directly from Vanguard's fact sheets. Used to widen
+  `ASSET_CLASS_CAPS`' Equities/Fixed Income caps from invented values (60%/
+  55%, which were actually *tighter* than Vanguard's own real Income and
+  Growth funds) to 80%/80%, matching the real observed range. Also wired
+  into `pipeline.py`'s reporting via `nearest_lifestrategy_fund()` — every
+  portfolio now reports which real Vanguard fund it most resembles.
+
+**Explicitly NOT closed, not glossed over:**
+- Commodities/Currencies/Alternatives caps (20%/15%/20%) remain **reasoned
+  judgment calls**. Vanguard's own core balanced-fund lineup doesn't hold
+  these asset classes at all, so there is no real Vanguard policy document
+  to calibrate against — confirmed by checking, not assumed.
+- Liquidity tiers in `config.py` are still hand-assigned, not yet computed
+  from real trading volume (we have real Volume data now via the HF
+  dataset/yfinance — this is a straightforward follow-up, not blocked on
+  finding new data).
+
 ### Post-audit fixes (post-Week-2, pre-Week-3)
 
 Before moving to Week 3, we did a critical audit of Week 2 rather than assume
