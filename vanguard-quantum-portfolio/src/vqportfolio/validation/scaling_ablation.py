@@ -6,15 +6,23 @@ problem before it reaches the quantum solver) and MPS simulation (lets the
 quantum solver handle more qubits than statevector) -- separately, not just
 combined, so we can report which one is actually doing the work.
 
-Key empirical finding from initial probing (see project log): MPS simulation
-is NOT a free scaling win for this problem class. Exact MPS chokes on dense
-qubit connectivity even at ~20 qubits, and our QUBO's ZZ terms come directly
-from the asset covariance matrix -- which is dense for real financial data,
-not sparse like the local/physics circuits MPS was originally built for.
-Bond-dimension truncation (approximate MPS) restores tractability but trades
-away exactness, and that fidelity cost is what this module actually measures
-(the runtime-only picture was already gathered interactively and is
-insufficient on its own -- a fast wrong answer isn't a scaling win).
+Full write-up with tables: docs/mps_scaling_findings.md. Summary:
+  - MPS's benefit depends on entanglement STRUCTURE, not just qubit count --
+    an early adversarial random-dense-Hamiltonian test choked badly even at
+    ~20 qubits, but our actual covariance-structured QUBO scaled cleanly
+    through 21 qubits.
+  - MPS's benefit is NOT free: uncapped MPS runtime scales sharply with QAOA
+    circuit depth p (0.31s -> 3.49s -> 7.87s for p=1,2,3 at fixed qubit
+    count), independent of qubit count. Since QAOA needs depth for solution
+    quality, MPS's qubit-count advantage and QAOA's depth requirement work
+    against each other -- not a simple "MPS helps" story.
+  - A hard architectural ceiling exists at 27 qubits for the current
+    statevector-based angle-optimization step (AerSimulator's default
+    target), independent of the MPS question -- found empirically, not
+    previously documented.
+  - All of the above used SYNTHETIC price data (no internet access in the
+    dev sandbox) -- needs re-confirmation with real data before being
+    treated as a final result.
 
 Fairness note: QAOA parameters are optimized ONCE via fast, exact statevector
 simulation, then the *same* fixed circuit is sampled through each backend for
@@ -64,7 +72,8 @@ def vectorized_brute_force(qubo, chunk_size: int = 2_000_000) -> tuple[np.ndarra
 
 
 def _optimize_qaoa_params(qubo, reps: int = 1, seed: int = 42,
-                           shots: int = 1024, maxiter: int = 60) -> tuple[QuantumCircuit, np.ndarray]:
+                           shots: int = 1024, maxiter: int = 60,
+                           n_restarts: int = 2) -> tuple[QuantumCircuit, np.ndarray]:
     """Optimize QAOA angles once via fast exact (statevector) simulation.
     Returns the bound circuit template (unbound parameters) and the best
     angle vector found -- callers bind and sample through whichever backend
@@ -94,7 +103,7 @@ def _optimize_qaoa_params(qubo, reps: int = 1, seed: int = 42,
 
     rng = np.random.default_rng(seed)
     best_params, best_cost = None, np.inf
-    for _ in range(2):  # light multi-start for the angle search itself
+    for _ in range(n_restarts):
         x0 = rng.normal(0, 0.3, size=2 * reps)
         res = minimize(expected_cost, x0, method="COBYLA", options={"maxiter": maxiter})
         if res.fun < best_cost:
@@ -120,6 +129,8 @@ def run_backend_ablation(
     shots: int = 1024,
     bond_dimensions: list[int] | None = None,
     compute_exact: bool = True,
+    n_restarts: int = 2,
+    maxiter: int = 60,
 ) -> list[BackendResult]:
     """Sample the same optimized QAOA circuit through statevector and MPS
     (at several bond-dimension caps), comparing solution quality via
@@ -165,7 +176,8 @@ def run_backend_ablation(
         print(f"  exact (vectorized brute force): {time.time() - t0:.2f}s, obj={exact_val:.6f}")
 
     hamiltonian, offset = qubo.to_ising()
-    circuit, params = _optimize_qaoa_params(qubo, reps=reps, seed=seed, shots=shots)
+    circuit, params = _optimize_qaoa_params(qubo, reps=reps, seed=seed, shots=shots,
+                                             maxiter=maxiter, n_restarts=n_restarts)
     bound = circuit.assign_parameters(params)
 
     # replace the measure_all() at the end with save_expectation_value --
