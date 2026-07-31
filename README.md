@@ -8,17 +8,22 @@ Solo submission, WISER Global Quantum+AI Program 2026. Deadline: **Aug 7, 2026**
 vanguard-quantum-portfolio/
 ├── pyproject.toml          # pip install -e .
 ├── src/vqportfolio/        # the actual package
-│   ├── config.py           # asset universe, sector caps, constants
-│   ├── market_data/        # loader (yfinance + synthetic fallback), overlays (returns/vol/cost/yield)
-│   ├── baseline/           # classical Markowitz baseline
-│   ├── partitioning/       # Week 2: H/O/S logic
-│   ├── quantum/            # Week 2: QUBO/QAOA
-│   └── validation/         # Week 3: rigor layer (multi-seed, walk-forward, scaling)
-├── notebooks/              # what you open in Colab
-├── app/                    # Week 3-4: portfolio co-pilot demo
+│   ├── config.py           # asset universe, guardrail caps (Vanguard-calibrated), constants
+│   ├── market_data/        # hybrid loader (HF/DuckDB + yfinance + synthetic fallback),
+│   │                       # real cost (Corwin-Schultz)/yield/liquidity-tier overlays,
+│   │                       # real FRED risk-free rate, real Vanguard LifeStrategy calibration
+│   ├── baseline/           # classical Markowitz baseline (real Sharpe ratio)
+│   ├── partitioning/       # H/O/S logic (dial-based scoring, convex-optimized H allocation)
+│   ├── quantum/            # QUBO formulation, warm-start + multi-restart QAOA
+│   └── validation/         # Week 3: MPS-vs-partitioning scaling ablation (done),
+│                           # equal-footing benchmarks/walk-forward (not yet)
+├── docs/                   # write-ups too detailed for the README (e.g. scaling findings)
+├── notebooks/               # what you open in Colab
+├── app/                    # Week 3-4: portfolio co-pilot demo (not yet built)
 ├── tests/
 └── data/                   # local cache only, gitignored
 ```
+
 
 ## Workflow: GitHub + Colab
 
@@ -65,10 +70,24 @@ network access, not as a data source for real results.
       brute-force enumeration since the toy instance is small enough);
       end-to-end pipeline compared once against Markowitz
       (`pipeline.py`) — validated (`tests/test_week2_sanity.py`)
-- [ ] **Week 3** (Jul 28–Aug 3): equal-footing classical benchmarks, multi-seed
-      variance reporting, walk-forward validation, scaling analysis, co-pilot
-      demo skeleton
-- [ ] **Week 4** (Aug 4–7): buffer, writeup, packaging
+- [~] **Week 3** (Jul 28–Aug 3): **scaling analysis (MPS vs. partitioning
+      ablation) done** — `validation/scaling_ablation.py`,
+      `validation/run_ablation_at_size.py`, full write-up in
+      `docs/mps_scaling_findings.md`. Real findings: MPS's benefit depends on
+      entanglement structure not just qubit count; MPS runtime scales sharply
+      with QAOA depth p (independent of qubit count) — MPS's qubit-count
+      advantage and QAOA's depth requirement work against each other; a hard
+      27-qubit ceiling exists in the current statevector-based optimization
+      step; a real cross-backend bitstring-labeling bug was caught and fixed
+      along the way. **Caveat carried through the whole doc: all of this used
+      synthetic price data, needs re-confirmation with real data.** Still
+      open: equal-footing classical benchmarks (ILP/greedy/random), multi-seed
+      variance reporting, walk-forward validation, co-pilot demo skeleton.
+- [ ] **Week 4** (Aug 4–7): buffer, writeup, packaging. Stretch goal moved
+      here (lower priority than required deliverables): properly test QAOA
+      depth p≥3 with an optimization budget that scales with the parameter
+      count, to separate "depth stops helping" from "fixed budget stops being
+      adequate" — currently confounded (see `docs/mps_scaling_findings.md`).
 
 ### Real data sourcing (post-Week-2)
 
