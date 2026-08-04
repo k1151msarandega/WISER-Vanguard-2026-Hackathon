@@ -6,6 +6,7 @@ clarabel
 yfinance
 duckdb
 pyarrow
+pulp
 
 # Not needed until Week 2/3 — install via `pip install -e ".[quantum]"` / `".[app]"` instead
 # qiskit
