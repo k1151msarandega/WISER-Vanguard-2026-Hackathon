@@ -17,7 +17,7 @@ import pandas as pd
 
 from vqportfolio.config import TICKERS, ASSET_CLASS_OF, ASSET_CLASS_CAPS
 from vqportfolio.market_data.loader import load_prices
-from vqportfolio.market_data.overlays import compute_returns_and_risk, synthetic_cost_and_yield
+from vqportfolio.market_data.overlays import compute_returns_and_risk, compute_cost_and_yield
 from vqportfolio.partitioning.scoring import compute_asset_scores, per_asset_max_drawdown, Dials
 from vqportfolio.partitioning.partition import (
     partition_assets, build_locked_allocation, PartitionConfig,
@@ -25,6 +25,7 @@ from vqportfolio.partitioning.partition import (
 from vqportfolio.quantum.qubo import build_o_set_qubo
 from vqportfolio.quantum.qaoa_solver import solve_with_qaoa_and_validate
 from vqportfolio.baseline.markowitz import solve_markowitz
+from vqportfolio.market_data.vanguard_calibration import nearest_lifestrategy_fund
 
 
 @dataclass
@@ -42,17 +43,38 @@ def run_pipeline(
     partition_config: PartitionConfig | None = None,
     risk_aversion: float = 3.0,
 ) -> PipelineResult:
+    """Load market data fresh, then run the pipeline. For callers that
+    already have mu/sigma/overlay/mdd cached (e.g. the Streamlit app, which
+    loads once and reuses across reruns), use run_pipeline_with_data()
+    instead to avoid redundant reloads -- this wrapper exists so every
+    existing caller (tests, __main__, notebooks) keeps working unchanged."""
     dials = dials or Dials()
     partition_config = partition_config or PartitionConfig()
 
     prices, used_synthetic = load_prices()
     mu, sigma, log_returns = compute_returns_and_risk(prices)
-    overlay = synthetic_cost_and_yield(TICKERS, log_returns)
+    overlay = compute_cost_and_yield(TICKERS, log_returns)
     mdd = per_asset_max_drawdown(prices)
 
+    result = run_pipeline_with_data(dials, partition_config, risk_aversion, mu, sigma, overlay, mdd)
+    return result, used_synthetic, mu, sigma
+
+
+def run_pipeline_with_data(
+    dials: Dials,
+    partition_config: PartitionConfig,
+    risk_aversion: float,
+    mu: pd.Series,
+    sigma: pd.DataFrame,
+    overlay: pd.DataFrame,
+    mdd: pd.Series,
+) -> PipelineResult:
+    """Core pipeline logic, given already-loaded market data. Split out from
+    run_pipeline() so callers who load data once (e.g. a Streamlit app
+    caching across reruns) don't silently re-fetch on every call."""
     scores_df = compute_asset_scores(mu, sigma, overlay["cost_bps"], overlay["yield"], mdd, dials)
     partition = partition_assets(scores_df["score"], partition_config)
-    h_weights, o_budget = build_locked_allocation(scores_df["score"], partition, partition_config)
+    h_weights, o_budget = build_locked_allocation(mu, sigma, overlay["cost_bps"], partition, partition_config)
 
     class_headroom = {}
     for asset_class, cap in ASSET_CLASS_CAPS.items():
@@ -86,14 +108,17 @@ def run_pipeline(
         qaoa_matches_exact=comparison.qaoa_matches_exact,
         repair_applied=comparison.repair_applied,
         markowitz_result=markowitz_result,
-    ), used_synthetic, mu, sigma
+    )
 
 
 def portfolio_stats(weights: pd.Series, mu: pd.Series, sigma: pd.DataFrame) -> dict:
     w = weights.values
+    equity_weight = float(weights[[t for t in weights.index if ASSET_CLASS_OF[t] == "Equities"]].sum())
     return {
         "expected_return": float(mu.values @ w),
         "risk_variance": float(w @ sigma.values @ w),
+        "equity_weight": equity_weight,
+        "nearest_vanguard_fund": nearest_lifestrategy_fund(equity_weight),
         "guardrail_breaches": {
             ac: round(weights[[t for t in weights.index if ASSET_CLASS_OF[t] == ac]].sum() - cap, 4)
             for ac, cap in ASSET_CLASS_CAPS.items()
@@ -118,12 +143,21 @@ if __name__ == "__main__":
     print("=== H/O/S + QAOA (full portfolio) ===")
     print(f"Expected return: {hos_stats['expected_return']:.4f}")
     print(f"Risk (variance): {hos_stats['risk_variance']:.5f}")
+    print(f"Equity weight: {hos_stats['equity_weight']:.1%}  -> resembles Vanguard's "
+          f"{hos_stats['nearest_vanguard_fund'].name} ({hos_stats['nearest_vanguard_fund'].ticker}, "
+          f"{hos_stats['nearest_vanguard_fund'].total_stock_pct:.0f}% stock)")
     print(f"Guardrail breaches: {hos_stats['guardrail_breaches']}")
     print(f"Sum of weights: {result.qaoa_full_weights.sum():.4f}\n")
 
+    mw_equity_weight = float(mw["weights"][[t for t in mw["weights"].index if ASSET_CLASS_OF[t] == "Equities"]].sum())
+    mw_nearest = nearest_lifestrategy_fund(mw_equity_weight)
     print("=== Classical Markowitz (full universe, same constraints) ===")
     print(f"Expected return: {mw['expected_return']:.4f}")
     print(f"Risk (variance): {mw['risk_variance']:.5f}")
+    print(f"Sharpe ratio: {mw['sharpe_ratio']:.4f} (rf={mw['risk_free_rate']:.4%}, "
+          f"{'FALLBACK' if mw['risk_free_rate_is_fallback'] else 'live FRED'})")
+    print(f"Equity weight: {mw_equity_weight:.1%}  -> resembles Vanguard's "
+          f"{mw_nearest.name} ({mw_nearest.ticker}, {mw_nearest.total_stock_pct:.0f}% stock)")
     print(f"Guardrail breaches: {mw['guardrail_breaches']}\n")
 
     print("Side-by-side weights:")
