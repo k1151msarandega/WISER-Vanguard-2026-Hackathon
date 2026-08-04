@@ -16,6 +16,7 @@ dependencies = [
     "yfinance",
     "duckdb",
     "pyarrow",
+    "pulp",
 ]
 
 [project.optional-dependencies]
@@ -26,6 +27,7 @@ quantum = [
 ]
 app = [
     "streamlit",
+    "plotly",
 ]
 
 [tool.setuptools.packages.find]
