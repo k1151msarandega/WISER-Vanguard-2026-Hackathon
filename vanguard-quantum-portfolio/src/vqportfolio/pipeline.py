@@ -43,6 +43,11 @@ def run_pipeline(
     partition_config: PartitionConfig | None = None,
     risk_aversion: float = 3.0,
 ) -> PipelineResult:
+    """Load market data fresh, then run the pipeline. For callers that
+    already have mu/sigma/overlay/mdd cached (e.g. the Streamlit app, which
+    loads once and reuses across reruns), use run_pipeline_with_data()
+    instead to avoid redundant reloads -- this wrapper exists so every
+    existing caller (tests, __main__, notebooks) keeps working unchanged."""
     dials = dials or Dials()
     partition_config = partition_config or PartitionConfig()
 
@@ -51,6 +56,22 @@ def run_pipeline(
     overlay = compute_cost_and_yield(TICKERS, log_returns)
     mdd = per_asset_max_drawdown(prices)
 
+    result = run_pipeline_with_data(dials, partition_config, risk_aversion, mu, sigma, overlay, mdd)
+    return result, used_synthetic, mu, sigma
+
+
+def run_pipeline_with_data(
+    dials: Dials,
+    partition_config: PartitionConfig,
+    risk_aversion: float,
+    mu: pd.Series,
+    sigma: pd.DataFrame,
+    overlay: pd.DataFrame,
+    mdd: pd.Series,
+) -> PipelineResult:
+    """Core pipeline logic, given already-loaded market data. Split out from
+    run_pipeline() so callers who load data once (e.g. a Streamlit app
+    caching across reruns) don't silently re-fetch on every call."""
     scores_df = compute_asset_scores(mu, sigma, overlay["cost_bps"], overlay["yield"], mdd, dials)
     partition = partition_assets(scores_df["score"], partition_config)
     h_weights, o_budget = build_locked_allocation(mu, sigma, overlay["cost_bps"], partition, partition_config)
@@ -87,7 +108,7 @@ def run_pipeline(
         qaoa_matches_exact=comparison.qaoa_matches_exact,
         repair_applied=comparison.repair_applied,
         markowitz_result=markowitz_result,
-    ), used_synthetic, mu, sigma
+    )
 
 
 def portfolio_stats(weights: pd.Series, mu: pd.Series, sigma: pd.DataFrame) -> dict:
