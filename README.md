@@ -19,7 +19,7 @@ vanguard-quantum-portfolio/
 │                           # equal-footing benchmarks/walk-forward (not yet)
 ├── docs/                   # write-ups too detailed for the README (e.g. scaling findings)
 ├── notebooks/               # what you open in Colab
-├── app/                    # Week 3-4: portfolio co-pilot demo (not yet built)
+├── app/                    # portfolio co-pilot demo (Streamlit, built)
 ├── tests/
 └── data/                   # local cache only, gitignored
 ```
@@ -80,9 +80,29 @@ network access, not as a data source for real results.
       27-qubit ceiling exists in the current statevector-based optimization
       step; a real cross-backend bitstring-labeling bug was caught and fixed
       along the way. **Caveat carried through the whole doc: all of this used
-      synthetic price data, needs re-confirmation with real data.** Still
-      open: equal-footing classical benchmarks (ILP/greedy/random), multi-seed
-      variance reporting, walk-forward validation, co-pilot demo skeleton.
+      synthetic price data, needs re-confirmation with real data.**
+      **Portfolio co-pilot demo done** — `app/app.py` (Streamlit), see
+      `app/README.md`. Live dial-driven H/O/S partitioning, gated QAOA solve,
+      classical-baseline comparison, real-Vanguard-fund matching, guardrail
+      explainability. Validated via `streamlit.testing.v1.AppTest` end-to-end
+      (load, slider interaction, full QAOA button click) before shipping, not
+      just import-checked.
+      **Equal-footing classical benchmarks done** — `validation/classical_benchmarks.py`,
+      `validation/run_classical_benchmarks.py`, full write-up in
+      `docs/classical_benchmarks_findings.md`. ILP (diagonal-risk MILP via
+      PuLP/CBC), greedy, and random, all solving the identical discretized
+      O-set problem QAOA solves. Real finding: QAOA's edge over ILP/greedy
+      comes specifically from using the full quadratic risk term (real
+      cross-covariance) that the classical ILP had to drop to stay solvable
+      — a fair, non-cherry-picked reason for an advantage. Two real bugs
+      caught and fixed while building this (a QUBO-dimension mismatch from
+      slack variables, and a sign-convention bug that had the random
+      baseline reporting its worst sample as its best) — see the findings
+      doc for how each was caught. One nuance flagged but not resolved:
+      a small, unexplained gap between QAOA's bitstring-exact match and its
+      reported objective on one instance. Tested on only two instances, not
+      yet a systematic sweep — that's the remaining gap along with
+      multi-seed variance reporting and walk-forward validation.
 - [ ] **Week 4** (Aug 4–7): buffer, writeup, packaging. Stretch goal moved
       here (lower priority than required deliverables): properly test QAOA
       depth p≥3 with an optimization budget that scales with the parameter
@@ -227,6 +247,14 @@ documented as caveats:
 
 ```bash
 pip install -e .              # core
-pip install -e ".[quantum]"   # + qiskit, for Week 2
-pip install -e ".[app]"       # + streamlit, for Week 3-4
+pip install -e ".[quantum]"   # + qiskit, for QUBO/QAOA
+pip install -e ".[app]"       # + streamlit/plotly, for the co-pilot demo
 ```
+
+## Run the co-pilot demo
+
+```bash
+streamlit run app/app.py
+```
+
+See `app/README.md` for what it shows and how it's designed.
