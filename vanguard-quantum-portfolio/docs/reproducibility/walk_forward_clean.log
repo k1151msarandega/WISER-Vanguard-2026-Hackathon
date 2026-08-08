@@ -1,0 +1,140 @@
+
+
+USED_SYNTHETIC_PRICES = True
+Price history: 4304 days x 15 tickers
+train_days=756 test_days=252 max_o_size=4 n_restarts=1 maxiter=10 shots=128
+TOTAL_PERIODS_AVAILABLE=14  running start_period=0 max_periods=1
+
+PERIOD_RESULT idx=0 train=[0:756) test=[756:1008) O=['UUP', 'FXE', 'IWM', 'VNQI'] hos_return=0.06183 mw_return=0.04438 matches_exact=False repair=False hos_breach=False mw_breach=False ok=True error=None
+
+WALK_FORWARD_SUMMARY {'n_periods': 1, 'n_ok': 1, 'n_failed': 0, 'hos_mean_period_return': 0.06183341591228064, 'hos_std_period_return': 0.0, 'hos_cumulative_return': 0.06183341591228064, 'mw_mean_period_return': 0.04437571822872699, 'mw_std_period_return': 0.0, 'mw_cumulative_return': 0.04437571822872699, 'hos_beats_mw_fraction': 1.0, 'n_periods_hos_guardrail_breach': 0, 'n_periods_mw_guardrail_breach': 0, 'n_periods_qaoa_matched_exact': 0, 'n_periods_repair_applied': 0}
+
+
+USED_SYNTHETIC_PRICES = True
+Price history: 4304 days x 15 tickers
+train_days=756 test_days=252 max_o_size=4 n_restarts=1 maxiter=10 shots=128
+TOTAL_PERIODS_AVAILABLE=14  running start_period=1 max_periods=1
+
+PERIOD_RESULT idx=1 train=[252:1008) test=[1008:1260) O=['FXE', 'UUP', 'IWM', 'SPY'] hos_return=0.04560 mw_return=0.02174 matches_exact=False repair=False hos_breach=False mw_breach=False ok=True error=None
+
+WALK_FORWARD_SUMMARY {'n_periods': 1, 'n_ok': 1, 'n_failed': 0, 'hos_mean_period_return': 0.04560417584475451, 'hos_std_period_return': 0.0, 'hos_cumulative_return': 0.04560417584475451, 'mw_mean_period_return': 0.0217444381982268, 'mw_std_period_return': 0.0, 'mw_cumulative_return': 0.0217444381982268, 'hos_beats_mw_fraction': 1.0, 'n_periods_hos_guardrail_breach': 0, 'n_periods_mw_guardrail_breach': 0, 'n_periods_qaoa_matched_exact': 0, 'n_periods_repair_applied': 0}
+
+
+USED_SYNTHETIC_PRICES = True
+Price history: 4304 days x 15 tickers
+train_days=756 test_days=252 max_o_size=4 n_restarts=1 maxiter=10 shots=128
+TOTAL_PERIODS_AVAILABLE=14  running start_period=2 max_periods=1
+
+PERIOD_RESULT idx=2 train=[504:1260) test=[1260:1512) O=['LQD', 'FXE', 'VNQ', 'IWM'] hos_return=-0.14145 mw_return=-0.19101 matches_exact=False repair=False hos_breach=False mw_breach=False ok=True error=None
+
+WALK_FORWARD_SUMMARY {'n_periods': 1, 'n_ok': 1, 'n_failed': 0, 'hos_mean_period_return': -0.14145466389491457, 'hos_std_period_return': 0.0, 'hos_cumulative_return': -0.14145466389491457, 'mw_mean_period_return': -0.1910097971627549, 'mw_std_period_return': 0.0, 'mw_cumulative_return': -0.1910097971627549, 'hos_beats_mw_fraction': 1.0, 'n_periods_hos_guardrail_breach': 0, 'n_periods_mw_guardrail_breach': 0, 'n_periods_qaoa_matched_exact': 0, 'n_periods_repair_applied': 0}
+
+
+USED_SYNTHETIC_PRICES = True
+Price history: 4304 days x 15 tickers
+train_days=756 test_days=252 max_o_size=4 n_restarts=1 maxiter=10 shots=128
+TOTAL_PERIODS_AVAILABLE=14  running start_period=3 max_periods=1
+
+PERIOD_RESULT idx=3 train=[756:1512) test=[1512:1764) O=['UUP', 'EEM', 'VNQ', 'DBC'] hos_return=0.14538 mw_return=0.14233 matches_exact=True repair=False hos_breach=False mw_breach=False ok=True error=None
+
+WALK_FORWARD_SUMMARY {'n_periods': 1, 'n_ok': 1, 'n_failed': 0, 'hos_mean_period_return': 0.14538097138864248, 'hos_std_period_return': 0.0, 'hos_cumulative_return': 0.14538097138864248, 'mw_mean_period_return': 0.14232523351791704, 'mw_std_period_return': 0.0, 'mw_cumulative_return': 0.14232523351791704, 'hos_beats_mw_fraction': 1.0, 'n_periods_hos_guardrail_breach': 0, 'n_periods_mw_guardrail_breach': 0, 'n_periods_qaoa_matched_exact': 1, 'n_periods_repair_applied': 0}
+
+
+USED_SYNTHETIC_PRICES = True
+Price history: 4304 days x 15 tickers
+train_days=756 test_days=252 max_o_size=4 n_restarts=1 maxiter=10 shots=128
+TOTAL_PERIODS_AVAILABLE=14  running start_period=4 max_periods=1
+
+PERIOD_RESULT idx=4 train=[1008:1764) test=[1764:2016) O=['FXE', 'UUP', 'EEM', 'VNQI'] hos_return=0.12007 mw_return=0.07582 matches_exact=False repair=False hos_breach=False mw_breach=False ok=True error=None
+
+WALK_FORWARD_SUMMARY {'n_periods': 1, 'n_ok': 1, 'n_failed': 0, 'hos_mean_period_return': 0.12006516284196866, 'hos_std_period_return': 0.0, 'hos_cumulative_return': 0.12006516284196866, 'mw_mean_period_return': 0.07582061914091143, 'mw_std_period_return': 0.0, 'mw_cumulative_return': 0.07582061914091143, 'hos_beats_mw_fraction': 1.0, 'n_periods_hos_guardrail_breach': 0, 'n_periods_mw_guardrail_breach': 0, 'n_periods_qaoa_matched_exact': 0, 'n_periods_repair_applied': 0}
+
+
+USED_SYNTHETIC_PRICES = True
+Price history: 4304 days x 15 tickers
+train_days=756 test_days=252 max_o_size=4 n_restarts=1 maxiter=10 shots=128
+TOTAL_PERIODS_AVAILABLE=14  running start_period=5 max_periods=1
+
+PERIOD_RESULT idx=5 train=[1260:2016) test=[2016:2268) O=['FXE', 'VNQI', 'UUP', 'SPY'] hos_return=-0.09199 mw_return=-0.11813 matches_exact=True repair=False hos_breach=False mw_breach=False ok=True error=None
+
+WALK_FORWARD_SUMMARY {'n_periods': 1, 'n_ok': 1, 'n_failed': 0, 'hos_mean_period_return': -0.09199109918158055, 'hos_std_period_return': 0.0, 'hos_cumulative_return': -0.09199109918158055, 'mw_mean_period_return': -0.11813351103333825, 'mw_std_period_return': 0.0, 'mw_cumulative_return': -0.11813351103333825, 'hos_beats_mw_fraction': 1.0, 'n_periods_hos_guardrail_breach': 0, 'n_periods_mw_guardrail_breach': 0, 'n_periods_qaoa_matched_exact': 1, 'n_periods_repair_applied': 0}
+
+
+USED_SYNTHETIC_PRICES = True
+Price history: 4304 days x 15 tickers
+train_days=756 test_days=252 max_o_size=4 n_restarts=1 maxiter=10 shots=128
+TOTAL_PERIODS_AVAILABLE=14  running start_period=6 max_periods=1
+
+PERIOD_RESULT idx=6 train=[1512:2268) test=[2268:2520) O=['FXE', 'SPY', 'VNQI', 'EEM'] hos_return=0.04968 mw_return=0.05361 matches_exact=True repair=False hos_breach=False mw_breach=False ok=True error=None
+
+WALK_FORWARD_SUMMARY {'n_periods': 1, 'n_ok': 1, 'n_failed': 0, 'hos_mean_period_return': 0.049680624986445654, 'hos_std_period_return': 0.0, 'hos_cumulative_return': 0.049680624986445654, 'mw_mean_period_return': 0.05361469474137248, 'mw_std_period_return': 0.0, 'mw_cumulative_return': 0.05361469474137248, 'hos_beats_mw_fraction': 0.0, 'n_periods_hos_guardrail_breach': 0, 'n_periods_mw_guardrail_breach': 0, 'n_periods_qaoa_matched_exact': 1, 'n_periods_repair_applied': 0}
+
+
+USED_SYNTHETIC_PRICES = True
+Price history: 4304 days x 15 tickers
+train_days=756 test_days=252 max_o_size=4 n_restarts=1 maxiter=10 shots=128
+TOTAL_PERIODS_AVAILABLE=14  running start_period=7 max_periods=1
+
+PERIOD_RESULT idx=7 train=[1764:2520) test=[2520:2772) O=['JNK', 'SPY', 'VNQI', 'EEM'] hos_return=0.00748 mw_return=0.00947 matches_exact=True repair=True hos_breach=False mw_breach=False ok=True error=None
+
+WALK_FORWARD_SUMMARY {'n_periods': 1, 'n_ok': 1, 'n_failed': 0, 'hos_mean_period_return': 0.007475996965541576, 'hos_std_period_return': 0.0, 'hos_cumulative_return': 0.007475996965541576, 'mw_mean_period_return': 0.00947374386332367, 'mw_std_period_return': 0.0, 'mw_cumulative_return': 0.00947374386332367, 'hos_beats_mw_fraction': 0.0, 'n_periods_hos_guardrail_breach': 0, 'n_periods_mw_guardrail_breach': 0, 'n_periods_qaoa_matched_exact': 1, 'n_periods_repair_applied': 1}
+
+
+USED_SYNTHETIC_PRICES = True
+Price history: 4304 days x 15 tickers
+train_days=756 test_days=252 max_o_size=4 n_restarts=1 maxiter=10 shots=128
+TOTAL_PERIODS_AVAILABLE=14  running start_period=8 max_periods=1
+
+PERIOD_RESULT idx=8 train=[2016:2772) test=[2772:3024) O=['JNK', 'UUP', 'USO', 'VNQI'] hos_return=0.02555 mw_return=-0.01884 matches_exact=True repair=True hos_breach=False mw_breach=False ok=True error=None
+
+WALK_FORWARD_SUMMARY {'n_periods': 1, 'n_ok': 1, 'n_failed': 0, 'hos_mean_period_return': 0.025552116172157247, 'hos_std_period_return': 0.0, 'hos_cumulative_return': 0.025552116172157247, 'mw_mean_period_return': -0.01883501848043001, 'mw_std_period_return': 0.0, 'mw_cumulative_return': -0.01883501848043001, 'hos_beats_mw_fraction': 1.0, 'n_periods_hos_guardrail_breach': 0, 'n_periods_mw_guardrail_breach': 0, 'n_periods_qaoa_matched_exact': 1, 'n_periods_repair_applied': 1}
+
+
+USED_SYNTHETIC_PRICES = True
+Price history: 4304 days x 15 tickers
+train_days=756 test_days=252 max_o_size=4 n_restarts=1 maxiter=10 shots=128
+TOTAL_PERIODS_AVAILABLE=14  running start_period=9 max_periods=1
+
+PERIOD_RESULT idx=9 train=[2268:3024) test=[3024:3276) O=['IWM', 'VNQ', 'LQD', 'SPY'] hos_return=0.20930 mw_return=0.14357 matches_exact=True repair=False hos_breach=False mw_breach=False ok=True error=None
+
+WALK_FORWARD_SUMMARY {'n_periods': 1, 'n_ok': 1, 'n_failed': 0, 'hos_mean_period_return': 0.20929739850133333, 'hos_std_period_return': 0.0, 'hos_cumulative_return': 0.20929739850133333, 'mw_mean_period_return': 0.143568626353741, 'mw_std_period_return': 0.0, 'mw_cumulative_return': 0.143568626353741, 'hos_beats_mw_fraction': 1.0, 'n_periods_hos_guardrail_breach': 0, 'n_periods_mw_guardrail_breach': 0, 'n_periods_qaoa_matched_exact': 1, 'n_periods_repair_applied': 0}
+
+
+USED_SYNTHETIC_PRICES = True
+Price history: 4304 days x 15 tickers
+train_days=756 test_days=252 max_o_size=4 n_restarts=1 maxiter=10 shots=128
+TOTAL_PERIODS_AVAILABLE=14  running start_period=10 max_periods=1
+
+PERIOD_RESULT idx=10 train=[2520:3276) test=[3276:3528) O=['LQD', 'EFA', 'VNQ', 'UUP'] hos_return=0.04852 mw_return=0.08265 matches_exact=True repair=False hos_breach=False mw_breach=False ok=True error=None
+
+WALK_FORWARD_SUMMARY {'n_periods': 1, 'n_ok': 1, 'n_failed': 0, 'hos_mean_period_return': 0.04852193575082997, 'hos_std_period_return': 0.0, 'hos_cumulative_return': 0.04852193575082997, 'mw_mean_period_return': 0.08264528526228943, 'mw_std_period_return': 0.0, 'mw_cumulative_return': 0.08264528526228943, 'hos_beats_mw_fraction': 0.0, 'n_periods_hos_guardrail_breach': 0, 'n_periods_mw_guardrail_breach': 0, 'n_periods_qaoa_matched_exact': 1, 'n_periods_repair_applied': 0}
+
+
+USED_SYNTHETIC_PRICES = True
+Price history: 4304 days x 15 tickers
+train_days=756 test_days=252 max_o_size=4 n_restarts=1 maxiter=10 shots=128
+TOTAL_PERIODS_AVAILABLE=14  running start_period=11 max_periods=1
+
+PERIOD_RESULT idx=11 train=[2772:3528) test=[3528:3780) O=['VNQI', 'SPY', 'UUP', 'EFA'] hos_return=0.00538 mw_return=0.04774 matches_exact=True repair=False hos_breach=False mw_breach=False ok=True error=None
+
+WALK_FORWARD_SUMMARY {'n_periods': 1, 'n_ok': 1, 'n_failed': 0, 'hos_mean_period_return': 0.005378927213223861, 'hos_std_period_return': 0.0, 'hos_cumulative_return': 0.005378927213223861, 'mw_mean_period_return': 0.047742611879071806, 'mw_std_period_return': 0.0, 'mw_cumulative_return': 0.047742611879071806, 'hos_beats_mw_fraction': 0.0, 'n_periods_hos_guardrail_breach': 0, 'n_periods_mw_guardrail_breach': 0, 'n_periods_qaoa_matched_exact': 1, 'n_periods_repair_applied': 0}
+
+
+USED_SYNTHETIC_PRICES = True
+Price history: 4304 days x 15 tickers
+train_days=756 test_days=252 max_o_size=4 n_restarts=1 maxiter=10 shots=128
+TOTAL_PERIODS_AVAILABLE=14  running start_period=12 max_periods=1
+
+PERIOD_RESULT idx=12 train=[3024:3780) test=[3780:4032) O=['SPY', 'JNK', 'LQD', 'IEF'] hos_return=-0.11290 mw_return=-0.16353 matches_exact=True repair=False hos_breach=False mw_breach=False ok=True error=None
+
+WALK_FORWARD_SUMMARY {'n_periods': 1, 'n_ok': 1, 'n_failed': 0, 'hos_mean_period_return': -0.11289501143847813, 'hos_std_period_return': 0.0, 'hos_cumulative_return': -0.11289501143847813, 'mw_mean_period_return': -0.16353327612993052, 'mw_std_period_return': 0.0, 'mw_cumulative_return': -0.16353327612993052, 'hos_beats_mw_fraction': 1.0, 'n_periods_hos_guardrail_breach': 0, 'n_periods_mw_guardrail_breach': 0, 'n_periods_qaoa_matched_exact': 1, 'n_periods_repair_applied': 0}
+
+
+USED_SYNTHETIC_PRICES = True
+Price history: 4304 days x 15 tickers
+train_days=756 test_days=252 max_o_size=4 n_restarts=1 maxiter=10 shots=128
+TOTAL_PERIODS_AVAILABLE=14  running start_period=13 max_periods=1
+
+PERIOD_RESULT idx=13 train=[3276:4032) test=[4032:4284) O=['IWM', 'FXE', 'EFA', 'DBC'] hos_return=0.06312 mw_return=0.14654 matches_exact=True repair=False hos_breach=False mw_breach=False ok=True error=None
+
+WALK_FORWARD_SUMMARY {'n_periods': 1, 'n_ok': 1, 'n_failed': 0, 'hos_mean_period_return': 0.06312389262025131, 'hos_std_period_return': 0.0, 'hos_cumulative_return': 0.06312389262025131, 'mw_mean_period_return': 0.14654246340737886, 'mw_std_period_return': 0.0, 'mw_cumulative_return': 0.14654246340737886, 'hos_beats_mw_fraction': 0.0, 'n_periods_hos_guardrail_breach': 0, 'n_periods_mw_guardrail_breach': 0, 'n_periods_qaoa_matched_exact': 1, 'n_periods_repair_applied': 0}
