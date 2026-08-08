@@ -13,7 +13,7 @@ vanguard-quantum-portfolio/
 │   │                       # real cost (Corwin-Schultz)/yield/liquidity-tier overlays,
 │   │                       # real FRED risk-free rate, real Vanguard LifeStrategy calibration
 │   ├── baseline/           # classical Markowitz baseline (real Sharpe ratio)
-│   ├── partitioning/       # H/O/S logic (dial-based scoring, convex-optimized H allocation)
+│   ├── partitioning/       # H/O/S logic (dial-based scoring, convex-optimised H allocation)
 │   ├── quantum/            # QUBO formulation, warm-start + multi-restart QAOA
 │   └── validation/         # scaling, classical benchmarks, walk-forward,
 │                           # and multi-seed variance validation
@@ -32,8 +32,8 @@ vanguard-quantum-portfolio/
    committed by accident.
 2. **In Colab**, each notebook starts with:
    ```python
-   !git clone https://github.com/YOUR_USERNAME/vanguard-quantum-portfolio.git
-   %cd vanguard-quantum-portfolio
+   !git clone https://github.com/k1151msarandega/WISER-Vanguard-2026-Hackathon
+   %cd WISER-Vanguard-2026-Hackathon/vanguard-quantum-portfolio
    !pip install -e . -q
    ```
    This makes `vqportfolio` importable exactly like any installed package —
@@ -74,11 +74,11 @@ network access, not as a data source for real results.
       ablation) done** — `validation/scaling_ablation.py`,
       `validation/run_ablation_at_size.py`, full write-up in
       `docs/mps_scaling_findings.md`. Real findings: MPS's benefit depends on
-      entanglement structure not just qubit count; MPS runtime scales sharply
+      entanglement structure, not just qubit count; MPS runtime scales sharply
       with QAOA depth p (independent of qubit count) — MPS's qubit-count
       advantage and QAOA's depth requirement work against each other; a hard
-      27-qubit ceiling exists in the current statevector-based optimization
-      step; a real cross-backend bitstring-labeling bug was caught and fixed
+      27-qubit ceiling exists in the current statevector-based optimisation
+      step; a real cross-backend bitstring-labelling bug was caught and fixed
       along the way. **Caveat carried through the whole doc: all of this used
       synthetic price data, needs re-confirmation with real data.**
       **Portfolio co-pilot demo done** — `app/app.py` (Streamlit), see
@@ -90,7 +90,7 @@ network access, not as a data source for real results.
       **Equal-footing classical benchmarks done** — `validation/classical_benchmarks.py`,
       `validation/run_classical_benchmarks.py`, full write-up in
       `docs/classical_benchmarks_findings.md`. ILP (diagonal-risk MILP via
-      PuLP/CBC), greedy, and random, all solving the identical discretized
+      PuLP/CBC), greedy, and random, all solving the identical discretised
       O-set problem QAOA solves. Real finding: QAOA's edge over ILP/greedy
       comes specifically from using the full quadratic risk term (real
       cross-covariance) that the classical ILP had to drop to stay solvable
@@ -131,7 +131,7 @@ before continuing further. Not everything closed — documented honestly below.
   portfolio now reports which real Vanguard fund it most resembles.
 - **Real liquidity tiers**: `market_data/liquidity.py`, `compute_liquidity_tiers()`.
   Computed from real average daily *dollar* volume (Volume × Close, the
-  standard cross-asset liquidity normalization), tercile-bucketed within
+  standard cross-asset liquidity normalisation), tercile-bucketed within
   our own 15-asset universe. `config.py`'s old hand-guessed tiers are now
   fallback-only (used only when the underlying OHLCV is itself synthetic --
   computing "real" tiers from synthetic volume would carry no real signal
@@ -187,13 +187,13 @@ documented as caveats:
 2. **Real yield data.** `yield` now comes from yfinance's real trailing
    dividend yield (`fetch_real_yield()`), not a randomly sampled band. A
    guard against "all yields came back zero" catches the offline case
-   without misclassifying legitimately zero-yield assets (GLD, USO, currency
+   without misclassifying zero-yield assets (GLD, USO, currency legitimately
    ETFs) as failures.
 3. **Dial conflation fixed.** The `drawdown` dial previously applied its
    full weight to *both* variance and max-drawdown silently — moving one
    dial secretly moved two things. `Dials.drawdown_variance_share` now makes
    that split explicit and documented (`partitioning/scoring.py`).
-4. **H allocation is now a real optimization, not a heuristic.**
+4. **H allocation is now a real optimisation, not a heuristic.**
    `water_filling_allocate()` (proportional-to-score heuristic) is no longer
    the default. `optimize_locked_allocation()` solves the same
    mean-variance-cost QP as the Markowitz baseline, restricted to H's
@@ -210,7 +210,7 @@ documented as caveats:
    (best-of-3). Note: we deliberately did *not* adopt the XY-mixer/
    Dicke-state constrained-mixer approach flagged in the Week 2 literature
    review — that technique fits cardinality-selection problems (choose K of
-   N), not our binarized-continuous-weight encoding, and copying it in
+   N), not our binarised-continuous-weight encoding, and copying it in
    anyway would have been cutting a different corner. Post-fix spot check
    (3 seeds): 0/3 failures, all exact-optimum. Not a full statistical claim
    (each solve takes ~1-2 min at practical settings) — a proper multi-seed
@@ -221,7 +221,7 @@ documented as caveats:
 - Risk/drawdown terms in the H/O/S *scoring* function (which asset ranks
   where, before allocation) are still per-asset (marginal), not
   portfolio-level — a conviction score, not a substitute for the QUBO's
-  actual covariance-aware objective or H's now-optimized allocation.
+  actual covariance-aware objective or H's now-optimised allocation.
 - O-set cost term assumes building from cash (no turnover-vs-prior-O-weights
   term yet) — fine for a cold-start prototype, needs revisiting once
   walk-forward rebalancing is in scope.
