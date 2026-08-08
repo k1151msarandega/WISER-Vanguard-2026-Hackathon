@@ -45,30 +45,11 @@ from qiskit.circuit.library import QAOAAnsatz
 from qiskit_aer import AerSimulator
 
 from vqportfolio.quantum.qaoa_solver import relax_and_warm_start, _bitstring_to_x
-
-
-def vectorized_brute_force(qubo, chunk_size: int = 2_000_000) -> tuple[np.ndarray, float]:
-    """Exact minimum via chunked, vectorized enumeration. Extends practical
-    exact validation from ~2^13-16 (the old itertools.product loop) to
-    ~2^22-24 by avoiding per-combination Python function-call overhead --
-    still exponential, still won't reach real problem sizes, but pushes the
-    point where we're forced to trust approximate methods further out."""
-    n = qubo.get_num_binary_vars()
-    lin = qubo.objective.linear.to_array()
-    quad = qubo.objective.quadratic.to_array()
-    q0 = qubo.objective.constant
-
-    N = 1 << n
-    best_val, best_x = np.inf, None
-    for start in range(0, N, chunk_size):
-        end = min(start + chunk_size, N)
-        idx = np.arange(start, end)
-        bits = ((idx[:, None] >> np.arange(n)[None, :]) & 1).astype(np.float64)
-        vals = np.einsum('ij,jk,ik->i', bits, quad, bits) + bits @ lin + q0
-        chunk_best = np.argmin(vals)
-        if vals[chunk_best] < best_val:
-            best_val, best_x = vals[chunk_best], bits[chunk_best]
-    return best_x.astype(int), float(best_val)
+from vqportfolio.quantum.qubo import vectorized_brute_force  # noqa: F401 -- re-exported for
+                                                               # existing callers of this module's
+                                                               # own vectorized_brute_force name;
+                                                               # single implementation now lives in
+                                                               # quantum/qubo.py (see its docstring)
 
 
 def _optimize_qaoa_params(qubo, reps: int = 1, seed: int = 42,
