@@ -169,3 +169,51 @@ around O-set size alone (e.g. for a real-time co-pilot deployment).
   weights (H/O/S+QAOA's turnover across the walk was never computed --
   same gap flagged in the rubric check as missing from the single-instance
   comparison too).
+
+## Update: real-data walk-forward (run separately, on Colab, after this doc
+## was first written)
+
+The synthetic-data result above was re-run against real market data (real
+yfinance + HF/DuckDB prices, live FRED risk-free rate) once internet access
+was available. **The headline outperformance above does NOT reproduce.**
+
+Real data, same train/test setup (756-day train, annual test, `max_o_size=4`,
+same reduced QAOA settings): 13 periods available (one fewer than the
+synthetic run's 14, since the real price history is ~150 days shorter).
+
+| | Cumulative return | HOS beats MW |
+|---|---|---|
+| H/O/S + QAOA | 91.79% | 6/13 periods (46.2%) |
+| Markowitz baseline | 91.37% | — |
+
+A 0.4-percentage-point difference over 13 compounded periods is noise, not
+an edge -- the two curves track each other almost exactly throughout (see
+`docs/plots/walk_forward_cumulative.html` for the actual chart once
+generated). At quarterly granularity (63-day test windows, 30 periods
+across two runs), Markowitz pulls modestly *ahead*: 13.8% vs 7.2% cumulative
+in one 10-period chunk, 12.4% vs 8.0% in another, with HOS beating Markowitz
+in only 30-40% of periods.
+
+**Honest reading**: the synthetic walk-forward's ~2x cumulative-return gap
+was very likely an artifact of that specific synthetic price generator's
+block-correlation structure, not a real signal about H/O/S+QAOA's
+advantage over classical mean-variance optimization. A plausible mechanism,
+not just a shrug: O is only 4 assets and ~30% of the portfolio, discretized
+into 8 levels each (`bits=3`). Markowitz has no quantization error and can
+rebalance across the *entire* 15-asset universe every period; the quantum
+step only ever touches a small, coarsely-discretized slice of it. At
+quarterly rebalancing frequency in particular, that discretization tax
+plausibly costs more than any combinatorial-search advantage buys back.
+
+**What still holds, and is now on firmer ground**: zero guardrail breaches,
+confirmed across all 13 real annual periods and all 30 real quarterly
+periods, in addition to every prior synthetic and single-instance result.
+This -- not the return comparison -- is this project's most defensible
+walk-forward claim, and it is now real-data-confirmed, not just
+synthetic-data-asserted.
+
+QAOA's exact-match rate on real data (8/13 periods, annual; 5/10 and 5/10
+on the two real quarterly chunks) is comparable to or better than the
+synthetic run's 10/14 -- consistent with the multi-seed variance finding
+below that real financial covariance structure appears friendlier to QAOA's
+optimization landscape than synthetic block-correlation is.
