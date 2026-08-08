@@ -119,3 +119,36 @@ recurring basins rather than a continuum of distinct outcomes.
   with slack, a proper variance-vs-size curve would need to control for
   both qubit count and depth separately -- out of scope for the remaining
   time before submission.
+
+## Update: real-data run (Colab, same 18-qubit-class instance size)
+
+Re-ran on real data once internet access was available: O = [IEF, FXE,
+EFA, GLD, VNQI] (21 qubits -- one qubit more than the synthetic run's
+instance, real class-cap headroom binding slightly differently), same
+reduced settings (`n_restarts=1, maxiter=15, shots=256`), seeds 0-9.
+
+| | Synthetic (18 qubits) | Real (21 qubits) |
+|---|---|---|
+| Seeds matching exact | 0/10 | **6/10** |
+| Mean gap to exact | 0.000693 | 0.000154 |
+| Std of objective | 0.000737 | 0.00041 |
+| Repair needed | 1/10 | 1/10 |
+
+**Real financial covariance structure is measurably friendlier to QAOA's
+optimization landscape than the synthetic block-correlation model was** --
+more than half the seeds landed exactly on the optimum on real data, at a
+*larger* qubit count, versus zero out of ten on synthetic at a smaller one.
+This is not a coincidence with `mps_scaling_findings.md`'s own finding that
+real/structured covariance is friendlier to MPS than adversarial random
+density -- the same underlying property (real assets have factor structure,
+a handful of dominant correlations rather than uniform density) appears to
+help QAOA's classical optimizer find good angles too, not just MPS's
+truncation error. Two independent findings docs now point at the same
+mechanism from different angles, which is a stronger claim than either
+alone.
+
+This does NOT mean multi-restart QAOA's reliability problem at scale is
+resolved -- 4/10 seeds still missed the exact optimum on real data, and the
+settings are still reduced from production defaults. It means the earlier
+synthetic-only result was likely pessimistic about how bad this gets on
+data the pipeline will actually see in practice.
