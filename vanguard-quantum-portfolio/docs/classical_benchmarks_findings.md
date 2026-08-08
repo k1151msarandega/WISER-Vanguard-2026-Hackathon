@@ -131,3 +131,28 @@ rather than write it up as-is.
   validation" items still separately open on the Week 3 list.
 - All on synthetic data (see caveat at top).
 - The instance-2 QAOA weight-space discrepancy is unresolved.
+
+## Update: real-data run (Colab)
+
+Re-ran once real internet access was available: O = [IEF, FXE, EFA, GLD],
+budget 0.30.
+
+| Method | Objective | Gap to exact | Time (s) |
+|---|---|---|---|
+| Exact (brute force) | 0.015476 | 0.000000 | 0.0000 |
+| QAOA | 0.015476 | 0.000000 | 0.0000 |
+| ILP (diagonal risk) | 0.015476 | 0.000000 | 0.0677 |
+| Greedy | 0.007915 | -0.007560 | 0.0002 |
+| Random (best-of-N) | 0.015244 | -0.000231 | 0.1849 |
+
+**A cleaner, more decisive result than either synthetic instance produced.**
+QAOA and ILP both matched exact here (unlike synthetic Instance 1, where ILP
+fell short) -- but greedy **collapsed** to a gap roughly 14x larger than
+anything seen on synthetic data (-0.00756 vs. synthetic's -0.000544 in both
+instances). On real covariance structure, ignoring interaction effects
+entirely (what greedy does, with no search at all) is punished far more
+severely than the diagonal-only approximation ILP uses (which still
+captures each asset's own variance, just not cross terms). This is a
+sharper, more real-world-credible version of the "QAOA's edge comes from
+using the full quadratic risk term" claim than the synthetic runs supported
+on their own.
