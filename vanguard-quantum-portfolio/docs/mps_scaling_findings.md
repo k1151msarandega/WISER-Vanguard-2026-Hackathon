@@ -113,3 +113,31 @@ Two separate things here, not one:
   based optimization step, independent of the MPS question.
 - Everything above needs re-confirmation with real market data before being
   stated as a final result -- flagged, not hidden.
+
+## Update: real-data run (Colab) -- the 27-qubit ceiling is a hardware wall,
+## not just a soft software cap
+
+Re-ran the qubit-count survey with real data. Sizes 3-5 behaved consistently
+with the synthetic run (same qualitative pattern: MPS competitive or faster
+at small sizes, statevector cost growing with qubit count). At size 6 (27
+qubits, real data's specific asset selection at this size), a genuinely new
+finding emerged:
+
+- **Statevector**: completed, but took **748 seconds** just to compute one
+  expectation value -- not a failure, but a two-order-of-magnitude jump from
+  size 5's 7.5s.
+- **MPS (both bond<=16 and uncapped)**: failed outright with
+  `Insufficient memory to run circuit QAOA-384 using the matrix_product_state
+  simulator. Required memory: 55297M, max memory: 12975M` -- MPS needed
+  ~4.3x more RAM than Colab's free-tier instance provides.
+
+This sharpens `mps_scaling_findings.md`'s original "soft ceiling" framing
+into something more concrete and more useful for anyone planning
+deployment: **27 qubits is not just where AerSimulator's default statevector
+target happens to cap out -- it is also approximately where MPS's own
+memory footprint exceeds commodity/free-tier hardware for this problem's
+entanglement structure.** Both the "just switch to MPS" and "just raise the
+qubit target" workarounds independently run into a real resource wall at
+almost the same point, on real hardware most users would actually have
+access to -- not a simulator configuration limit that a bigger `--target`
+flag would fix.
