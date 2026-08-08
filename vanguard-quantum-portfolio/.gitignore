@@ -1,24 +1,8 @@
-# Python
-__pycache__/
-*.pyc
-*.egg-info/
-.eggs/
-build/
-dist/
-
-# Notebooks
-.ipynb_checkpoints/
-
-# Local data cache (never commit market data or generated results)
 data/raw/*
 data/processed/*
 !data/raw/.gitkeep
 !data/processed/.gitkeep
-
-# Environments
-.venv/
-venv/
-.env
-
-# OS
-.DS_Store
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+*.egg-info/
