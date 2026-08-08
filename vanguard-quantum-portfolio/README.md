@@ -15,8 +15,8 @@ vanguard-quantum-portfolio/
 │   ├── baseline/           # classical Markowitz baseline (real Sharpe ratio)
 │   ├── partitioning/       # H/O/S logic (dial-based scoring, convex-optimized H allocation)
 │   ├── quantum/            # QUBO formulation, warm-start + multi-restart QAOA
-│   └── validation/         # scaling, classical benchmarks, walk-forward,
-│                           # and multi-seed variance validation
+│   └── validation/         # Week 3: MPS-vs-partitioning scaling ablation (done),
+│                           # equal-footing benchmarks/walk-forward (not yet)
 ├── docs/                   # write-ups too detailed for the README (e.g. scaling findings)
 ├── notebooks/               # what you open in Colab
 ├── app/                    # portfolio co-pilot demo (Streamlit, built)
@@ -103,12 +103,11 @@ network access, not as a data source for real results.
       reported objective on one instance. Tested on only two instances, not
       yet a systematic sweep — that's the remaining gap along with
       multi-seed variance reporting and walk-forward validation.
-- [x] **Week 4** (Aug 4–7): packaging and final response drafting.
-      Submission-ready short responses are in
-      `docs/submission_responses.md`. Walk-forward validation and multi-seed
-      variance reporting are now documented in `docs/walk_forward_findings.md`
-      and `docs/multi_seed_variance_findings.md`; the p≥3 scaled-budget depth
-      study remains a future-work item, not a required-deliverable gap.
+- [ ] **Week 4** (Aug 4–7): buffer, writeup, packaging. Stretch goal moved
+      here (lower priority than required deliverables): properly test QAOA
+      depth p≥3 with an optimization budget that scales with the parameter
+      count, to separate "depth stops helping" from "fixed budget stops being
+      adequate" — currently confounded (see `docs/mps_scaling_findings.md`).
 
 ### Real data sourcing (post-Week-2)
 
@@ -237,12 +236,87 @@ documented as caveats:
   brief's explicit requirement that AI tool use be documented and all
   submitted work defensible as the team's own.
 
+## Next Steps
+
+What we'd do with more time, in the order it would actually matter:
+
+**Validation rigor**
+- Expand the equal-footing benchmark suite (`docs/classical_benchmarks_findings.md`)
+  across more O-set instances, with more random seeds and confidence
+  intervals, not just the two instances currently tested.
+- Add transaction-cost-adjusted realized returns and explicit turnover
+  constraints to the walk-forward backtest -- turnover is currently
+  computed for the Markowitz baseline but never for H/O/S+QAOA, a
+  rubric-named comparison axis that's currently one-sided.
+- Where tractable, add MIQP or other nonlinear classical solvers as
+  comparators beyond the current diagonal-risk ILP/greedy/random suite.
+
+**Quantum scalability**
+- Integrate MPS into the QAOA optimization loop itself, not only into the
+  final expectation-value/sampling comparison. The current loop is
+  statevector-based throughout, which is what actually produces the hard
+  ~27-qubit ceiling documented in `docs/mps_scaling_findings.md` --
+  including a real memory-wall failure on real data at that size, not just
+  a software cap.
+- Re-run the p=1/p=2/p=3 depth comparison with an optimizer budget that
+  scales with the parameter count (2p), so deeper circuits aren't
+  systematically under-optimized relative to shallower ones -- the current
+  comparison is confounded on exactly this point (see
+  `docs/mps_scaling_findings.md`, Finding 5).
+- Push the multi-seed variance study (`docs/multi_seed_variance_findings.md`)
+  across a proper size curve, not just two data points (12 and 18/21
+  qubits), and at production QAOA settings rather than the reduced
+  settings used to keep this validation pass tractable in the time
+  available.
+
+**Toward a real implementation**
+- Evolve the co-pilot from a demo into an advisor workflow: approved fund
+  universes, audited market-data caches (rather than live yfinance/HF
+  pulls), human approval before any trade, richer sector/liquidity
+  constraints beyond today's asset-class-level caps, compliance review,
+  ongoing monitoring, and reproducible run logs for every recommendation
+  (in the spirit of `docs/reproducibility/`, but for production runs, not
+  just validation experiments).
+
+## References
+
+**Quantum methods**
+- Egger, D. J., Marecek, J., & Woerner, S. (2021). *Warm-starting quantum
+  optimization.* Quantum, 5, 479. -- the warm-start QAOA technique this
+  project implements (biased initial state only, standard X-mixer; see
+  `quantum/qaoa_solver.py`'s module docstring for the documented
+  simplification relative to the paper's full tilted-mixer method).
+- Qiskit Optimization documentation, `QuadraticProgramToQubo` --
+  the constrained-to-QUBO conversion route used throughout
+  (`quantum/qubo.py`).
+
+**Financial data & calibration**
+- Corwin, S. A., & Schultz, P. (2012). *A Simple Way to Estimate Bid-Ask
+  Spreads from Daily High and Low Prices.* The Journal of Finance, 67(2). --
+  the transaction-cost proxy estimator (`market_data/overlays.py`).
+- Vanguard LifeStrategy fund family fact sheets (fund numbers 0122, 0724,
+  0723, 0914), fetched directly from workplace.vanguard.com, June 30 2026 --
+  real fund-family stock/bond splits used to calibrate `ASSET_CLASS_CAPS`
+  and the "resembles Vanguard's own fund" explainability feature
+  (`market_data/vanguard_calibration.py`).
+- Federal Reserve Economic Data (FRED), series `DGS3MO` (3-Month Treasury
+  Constant Maturity) -- real risk-free rate for Sharpe ratio reporting
+  (`market_data/risk_free_rate.py`).
+- `defeatbeta/yahoo-finance-data` dataset on Hugging Face -- real historical
+  OHLCV for 9 of 15 tickers, queried via DuckDB predicate pushdown
+  (`market_data/loader.py`).
+
+**Challenge materials**
+- WISER Global Quantum + AI Program 2026, Vanguard Quantum for Finance
+  challenge brief -- Multi-Asset Portfolio Construction problem statement,
+  deliverables, and judging criteria.
+
 ## Guardrails enforced (hard constraints in the classical baseline)
 
 - Per-asset weight cap: 25%
-- Asset-class exposure caps: Equities 80%, Fixed Income 80%, Commodities 20%,
+- Asset-class exposure caps: Equities 60%, Fixed Income 55%, Commodities 20%,
   Currencies 15%, Alternatives 20%
-- Turnover cap (configurable; not yet reported in walk-forward results)
+- Turnover cap (configurable)
 
 ## Install
 
