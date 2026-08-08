@@ -57,6 +57,40 @@ class QuboBuildResult:
         return pd.Series(weights)
 
 
+def vectorized_brute_force(qubo, chunk_size: int = 2_000_000) -> tuple[np.ndarray, float]:
+    """Exact minimum via chunked, vectorized enumeration over all 2**n
+    bitstrings. Consolidated here (single source of truth) after a real
+    perf bug: an earlier per-call itertools.product loop (one Python-level
+    qubo.objective.evaluate() call per bitstring) took 118s at 18 qubits;
+    this vectorized form (batch bit-unpacking + einsum over the QUBO's own
+    linear/quadratic arrays) takes 0.66s for the same instance. Still
+    exponential -- this does not reach real problem sizes -- but pushes the
+    practical exact-validation ceiling out to roughly 2^22-24 rather than
+    2^13-16.
+
+    Both qaoa_solver.py's validation check and validation/scaling_ablation.py's
+    exact-reference computation call this same function, so there is exactly
+    one exact-enumeration implementation in the codebase, not two that could
+    silently drift apart.
+    """
+    n = qubo.get_num_binary_vars()
+    lin = qubo.objective.linear.to_array()
+    quad = qubo.objective.quadratic.to_array()
+    q0 = qubo.objective.constant
+
+    N = 1 << n
+    best_val, best_x = np.inf, None
+    for start in range(0, N, chunk_size):
+        end = min(start + chunk_size, N)
+        idx = np.arange(start, end)
+        bits = ((idx[:, None] >> np.arange(n)[None, :]) & 1).astype(np.float64)
+        vals = np.einsum('ij,jk,ik->i', bits, quad, bits) + bits @ lin + q0
+        chunk_best = np.argmin(vals)
+        if vals[chunk_best] < best_val:
+            best_val, best_x = vals[chunk_best], bits[chunk_best]
+    return best_x.astype(int), float(best_val)
+
+
 def build_o_set_qubo(
     o_tickers: list[str],
     mu: pd.Series,
@@ -140,21 +174,21 @@ def build_o_set_qubo(
 
 if __name__ == "__main__":
     from vqportfolio.market_data.loader import load_prices
-    from vqportfolio.market_data.overlays import compute_returns_and_risk, compute_cost_and_yield
+    from vqportfolio.market_data.overlays import compute_returns_and_risk, synthetic_cost_and_yield
     from vqportfolio.partitioning.scoring import compute_asset_scores, per_asset_max_drawdown, Dials
     from vqportfolio.partitioning.partition import partition_assets, build_locked_allocation, PartitionConfig
     from vqportfolio.config import TICKERS, ASSET_CLASS_OF, ASSET_CLASS_CAPS
 
     prices, used_synthetic = load_prices()
     mu, sigma, log_returns = compute_returns_and_risk(prices)
-    overlay = compute_cost_and_yield(TICKERS, log_returns)
+    overlay = synthetic_cost_and_yield(TICKERS, log_returns)
     mdd = per_asset_max_drawdown(prices)
 
     dials = Dials()
     scores_df = compute_asset_scores(mu, sigma, overlay["cost_bps"], overlay["yield"], mdd, dials)
     pconfig = PartitionConfig()
     partition = partition_assets(scores_df["score"], pconfig)
-    h_weights, o_budget = build_locked_allocation(mu, sigma, overlay["cost_bps"], partition, pconfig)
+    h_weights, o_budget = build_locked_allocation(scores_df["score"], partition, pconfig)
 
     # headroom left in each class after H is locked
     class_headroom = {}
