@@ -1,0 +1,770 @@
+Failed to get ticker 'JNK' reason: Expecting value: line 1 column 1 (char 0)
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+Failed to get ticker 'EFA' reason: Expecting value: line 1 column 1 (char 0)
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+Failed to get ticker 'IEF' reason: Expecting value: line 1 column 1 (char 0)
+$IEF: possibly delisted; no timezone found
+Failed to get ticker 'IWM' reason: Expecting value: line 1 column 1 (char 0)
+$IWM: possibly delisted; no timezone found
+Failed to get ticker 'USO' reason: Expecting value: line 1 column 1 (char 0)
+$USO: possibly delisted; no timezone found
+Failed to get ticker 'EEM' reason: Expecting value: line 1 column 1 (char 0)
+$EEM: possibly delisted; no timezone found
+Failed to get ticker 'TLT' reason: Expecting value: line 1 column 1 (char 0)
+$TLT: possibly delisted; no timezone found
+Failed to get ticker 'DBC' reason: Expecting value: line 1 column 1 (char 0)
+$DBC: possibly delisted; no timezone found
+Failed to get ticker 'UUP' reason: Expecting value: line 1 column 1 (char 0)
+$UUP: possibly delisted; no timezone found
+Failed to get ticker 'LQD' reason: Expecting value: line 1 column 1 (char 0)
+$LQD: possibly delisted; no timezone found
+Failed to get ticker 'GLD' reason: Expecting value: line 1 column 1 (char 0)
+$GLD: possibly delisted; no timezone found
+Failed to get ticker 'VNQ' reason: Expecting value: line 1 column 1 (char 0)
+$VNQ: possibly delisted; no timezone found
+Failed to get ticker 'VNQI' reason: Expecting value: line 1 column 1 (char 0)
+$VNQI: possibly delisted; no timezone found
+Failed to get ticker 'FXE' reason: Expecting value: line 1 column 1 (char 0)
+$FXE: possibly delisted; no timezone found
+Failed to get ticker 'SPY' reason: Expecting value: line 1 column 1 (char 0)
+$SPY: possibly delisted; no timezone found
+
+15 Failed downloads:
+['JNK', 'EFA']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+['IEF', 'IWM', 'USO', 'EEM', 'TLT', 'DBC', 'UUP', 'LQD', 'GLD', 'VNQ', 'VNQI', 'FXE', 'SPY']: possibly delisted; no timezone found
+Failed to get ticker 'JNK' reason: Expecting value: line 1 column 1 (char 0)
+$JNK: possibly delisted; no timezone found
+Failed to get ticker 'EFA' reason: Expecting value: line 1 column 1 (char 0)
+$EFA: possibly delisted; no timezone found
+Failed to get ticker 'IEF' reason: Expecting value: line 1 column 1 (char 0)
+$IEF: possibly delisted; no timezone found
+Failed to get ticker 'IWM' reason: Expecting value: line 1 column 1 (char 0)
+$IWM: possibly delisted; no timezone found
+Failed to get ticker 'USO' reason: Expecting value: line 1 column 1 (char 0)
+$USO: possibly delisted; no timezone found
+Failed to get ticker 'EEM' reason: Expecting value: line 1 column 1 (char 0)
+$EEM: possibly delisted; no timezone found
+Failed to get ticker 'TLT' reason: Expecting value: line 1 column 1 (char 0)
+$TLT: possibly delisted; no timezone found
+Failed to get ticker 'DBC' reason: Expecting value: line 1 column 1 (char 0)
+$DBC: possibly delisted; no timezone found
+Failed to get ticker 'UUP' reason: Expecting value: line 1 column 1 (char 0)
+$UUP: possibly delisted; no timezone found
+Failed to get ticker 'LQD' reason: Expecting value: line 1 column 1 (char 0)
+$LQD: possibly delisted; no timezone found
+Failed to get ticker 'GLD' reason: Expecting value: line 1 column 1 (char 0)
+$GLD: possibly delisted; no timezone found
+Failed to get ticker 'VNQ' reason: Expecting value: line 1 column 1 (char 0)
+$VNQ: possibly delisted; no timezone found
+Failed to get ticker 'VNQI' reason: Expecting value: line 1 column 1 (char 0)
+$VNQI: possibly delisted; no timezone found
+Failed to get ticker 'FXE' reason: Expecting value: line 1 column 1 (char 0)
+$FXE: possibly delisted; no timezone found
+Failed to get ticker 'SPY' reason: Expecting value: line 1 column 1 (char 0)
+$SPY: possibly delisted; no timezone found
+
+15 Failed downloads:
+['JNK', 'EFA', 'IEF', 'IWM', 'USO', 'EEM', 'TLT', 'DBC', 'UUP', 'LQD', 'GLD', 'VNQ', 'VNQI', 'FXE', 'SPY']: possibly delisted; no timezone found
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+USED_SYNTHETIC_PRICES = True
+O-set: ['IWM', 'LQD', 'SPY', 'UUP', 'VNQI'], exact_objective=0.018763
+
+SEED_RESULT seed=0 objective=0.018741 gap=0.000021 matches_exact=False repair_applied=False ok=True error=None
+
+BATCH_SUMMARY seeds=0-0 {'n_seeds': 1, 'n_ok': 1, 'n_failed': 0, 'n_matches_exact': 0, 'n_repair_applied': 0, 'mean_objective': 0.01874121089006714, 'std_objective': 0.0, 'min_objective': 0.01874121089006714, 'max_objective': 0.01874121089006714, 'mean_gap_to_exact': 2.1315758146879527e-05, 'max_gap_to_exact': 2.1315758146879527e-05}
+Failed to get ticker 'TLT' reason: Expecting value: line 1 column 1 (char 0)
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+Failed to get ticker 'IEF' reason: Expecting value: line 1 column 1 (char 0)
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+Failed to get ticker 'JNK' reason: Expecting value: line 1 column 1 (char 0)
+$JNK: possibly delisted; no timezone found
+Failed to get ticker 'VNQ' reason: Expecting value: line 1 column 1 (char 0)
+$VNQ: possibly delisted; no timezone found
+Failed to get ticker 'LQD' reason: Expecting value: line 1 column 1 (char 0)
+$LQD: possibly delisted; no timezone found
+Failed to get ticker 'EEM' reason: Expecting value: line 1 column 1 (char 0)
+$EEM: possibly delisted; no timezone found
+Failed to get ticker 'GLD' reason: Expecting value: line 1 column 1 (char 0)
+$GLD: possibly delisted; no timezone found
+Failed to get ticker 'SPY' reason: Expecting value: line 1 column 1 (char 0)
+$SPY: possibly delisted; no timezone found
+Failed to get ticker 'EFA' reason: Expecting value: line 1 column 1 (char 0)
+$EFA: possibly delisted; no timezone found
+Failed to get ticker 'VNQI' reason: Expecting value: line 1 column 1 (char 0)
+$VNQI: possibly delisted; no timezone found
+Failed to get ticker 'FXE' reason: Expecting value: line 1 column 1 (char 0)
+$FXE: possibly delisted; no timezone found
+Failed to get ticker 'USO' reason: Expecting value: line 1 column 1 (char 0)
+$USO: possibly delisted; no timezone found
+Failed to get ticker 'UUP' reason: Expecting value: line 1 column 1 (char 0)
+$UUP: possibly delisted; no timezone found
+Failed to get ticker 'IWM' reason: Expecting value: line 1 column 1 (char 0)
+$IWM: possibly delisted; no timezone found
+Failed to get ticker 'DBC' reason: Expecting value: line 1 column 1 (char 0)
+$DBC: possibly delisted; no timezone found
+
+15 Failed downloads:
+['TLT', 'IEF']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+['JNK', 'VNQ', 'LQD', 'EEM', 'GLD', 'SPY', 'EFA', 'VNQI', 'FXE', 'USO', 'UUP', 'IWM', 'DBC']: possibly delisted; no timezone found
+Failed to get ticker 'TLT' reason: Expecting value: line 1 column 1 (char 0)
+$TLT: possibly delisted; no timezone found
+Failed to get ticker 'IEF' reason: Expecting value: line 1 column 1 (char 0)
+$IEF: possibly delisted; no timezone found
+Failed to get ticker 'JNK' reason: Expecting value: line 1 column 1 (char 0)
+$JNK: possibly delisted; no timezone found
+Failed to get ticker 'VNQ' reason: Expecting value: line 1 column 1 (char 0)
+$VNQ: possibly delisted; no timezone found
+Failed to get ticker 'LQD' reason: Expecting value: line 1 column 1 (char 0)
+$LQD: possibly delisted; no timezone found
+Failed to get ticker 'EEM' reason: Expecting value: line 1 column 1 (char 0)
+$EEM: possibly delisted; no timezone found
+Failed to get ticker 'GLD' reason: Expecting value: line 1 column 1 (char 0)
+$GLD: possibly delisted; no timezone found
+Failed to get ticker 'SPY' reason: Expecting value: line 1 column 1 (char 0)
+$SPY: possibly delisted; no timezone found
+Failed to get ticker 'EFA' reason: Expecting value: line 1 column 1 (char 0)
+$EFA: possibly delisted; no timezone found
+Failed to get ticker 'VNQI' reason: Expecting value: line 1 column 1 (char 0)
+$VNQI: possibly delisted; no timezone found
+Failed to get ticker 'FXE' reason: Expecting value: line 1 column 1 (char 0)
+$FXE: possibly delisted; no timezone found
+Failed to get ticker 'USO' reason: Expecting value: line 1 column 1 (char 0)
+$USO: possibly delisted; no timezone found
+Failed to get ticker 'UUP' reason: Expecting value: line 1 column 1 (char 0)
+$UUP: possibly delisted; no timezone found
+Failed to get ticker 'IWM' reason: Expecting value: line 1 column 1 (char 0)
+$IWM: possibly delisted; no timezone found
+Failed to get ticker 'DBC' reason: Expecting value: line 1 column 1 (char 0)
+$DBC: possibly delisted; no timezone found
+
+15 Failed downloads:
+['TLT', 'IEF', 'JNK', 'VNQ', 'LQD', 'EEM', 'GLD', 'SPY', 'EFA', 'VNQI', 'FXE', 'USO', 'UUP', 'IWM', 'DBC']: possibly delisted; no timezone found
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+USED_SYNTHETIC_PRICES = True
+O-set: ['IWM', 'LQD', 'SPY', 'UUP', 'VNQI'], exact_objective=0.018763
+
+SEED_RESULT seed=1 objective=0.016916 gap=0.001847 matches_exact=False repair_applied=False ok=True error=None
+
+BATCH_SUMMARY seeds=1-1 {'n_seeds': 1, 'n_ok': 1, 'n_failed': 0, 'n_matches_exact': 0, 'n_repair_applied': 0, 'mean_objective': 0.016915567285040914, 'std_objective': 0.0, 'min_objective': 0.016915567285040914, 'max_objective': 0.016915567285040914, 'mean_gap_to_exact': 0.0018469593631731049, 'max_gap_to_exact': 0.0018469593631731049}
+Failed to get ticker 'USO' reason: Expecting value: line 1 column 1 (char 0)
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+Failed to get ticker 'SPY' reason: Expecting value: line 1 column 1 (char 0)
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+Failed to get ticker 'TLT' reason: Expecting value: line 1 column 1 (char 0)
+$TLT: possibly delisted; no timezone found
+Failed to get ticker 'UUP' reason: Expecting value: line 1 column 1 (char 0)
+$UUP: possibly delisted; no timezone found
+Failed to get ticker 'EFA' reason: Expecting value: line 1 column 1 (char 0)
+$EFA: possibly delisted; no timezone found
+Failed to get ticker 'EEM' reason: Expecting value: line 1 column 1 (char 0)
+$EEM: possibly delisted; no timezone found
+Failed to get ticker 'GLD' reason: Expecting value: line 1 column 1 (char 0)
+$GLD: possibly delisted; no timezone found
+Failed to get ticker 'FXE' reason: Expecting value: line 1 column 1 (char 0)
+$FXE: possibly delisted; no timezone found
+Failed to get ticker 'IWM' reason: Expecting value: line 1 column 1 (char 0)
+$IWM: possibly delisted; no timezone found
+Failed to get ticker 'JNK' reason: Expecting value: line 1 column 1 (char 0)
+$JNK: possibly delisted; no timezone found
+Failed to get ticker 'VNQ' reason: Expecting value: line 1 column 1 (char 0)
+$VNQ: possibly delisted; no timezone found
+Failed to get ticker 'IEF' reason: Expecting value: line 1 column 1 (char 0)
+$IEF: possibly delisted; no timezone found
+Failed to get ticker 'VNQI' reason: Expecting value: line 1 column 1 (char 0)
+$VNQI: possibly delisted; no timezone found
+Failed to get ticker 'LQD' reason: Expecting value: line 1 column 1 (char 0)
+$LQD: possibly delisted; no timezone found
+Failed to get ticker 'DBC' reason: Expecting value: line 1 column 1 (char 0)
+$DBC: possibly delisted; no timezone found
+
+15 Failed downloads:
+['USO', 'SPY']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+['TLT', 'UUP', 'EFA', 'EEM', 'GLD', 'FXE', 'IWM', 'JNK', 'VNQ', 'IEF', 'VNQI', 'LQD', 'DBC']: possibly delisted; no timezone found
+Failed to get ticker 'USO' reason: Expecting value: line 1 column 1 (char 0)
+$USO: possibly delisted; no timezone found
+Failed to get ticker 'SPY' reason: Expecting value: line 1 column 1 (char 0)
+$SPY: possibly delisted; no timezone found
+Failed to get ticker 'TLT' reason: Expecting value: line 1 column 1 (char 0)
+$TLT: possibly delisted; no timezone found
+Failed to get ticker 'UUP' reason: Expecting value: line 1 column 1 (char 0)
+$UUP: possibly delisted; no timezone found
+Failed to get ticker 'EFA' reason: Expecting value: line 1 column 1 (char 0)
+$EFA: possibly delisted; no timezone found
+Failed to get ticker 'EEM' reason: Expecting value: line 1 column 1 (char 0)
+$EEM: possibly delisted; no timezone found
+Failed to get ticker 'GLD' reason: Expecting value: line 1 column 1 (char 0)
+$GLD: possibly delisted; no timezone found
+Failed to get ticker 'FXE' reason: Expecting value: line 1 column 1 (char 0)
+$FXE: possibly delisted; no timezone found
+Failed to get ticker 'IWM' reason: Expecting value: line 1 column 1 (char 0)
+$IWM: possibly delisted; no timezone found
+Failed to get ticker 'JNK' reason: Expecting value: line 1 column 1 (char 0)
+$JNK: possibly delisted; no timezone found
+Failed to get ticker 'VNQ' reason: Expecting value: line 1 column 1 (char 0)
+$VNQ: possibly delisted; no timezone found
+Failed to get ticker 'IEF' reason: Expecting value: line 1 column 1 (char 0)
+$IEF: possibly delisted; no timezone found
+Failed to get ticker 'VNQI' reason: Expecting value: line 1 column 1 (char 0)
+$VNQI: possibly delisted; no timezone found
+Failed to get ticker 'LQD' reason: Expecting value: line 1 column 1 (char 0)
+$LQD: possibly delisted; no timezone found
+Failed to get ticker 'DBC' reason: Expecting value: line 1 column 1 (char 0)
+$DBC: possibly delisted; no timezone found
+
+15 Failed downloads:
+['USO', 'SPY', 'TLT', 'UUP', 'EFA', 'EEM', 'GLD', 'FXE', 'IWM', 'JNK', 'VNQ', 'IEF', 'VNQI', 'LQD', 'DBC']: possibly delisted; no timezone found
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+USED_SYNTHETIC_PRICES = True
+O-set: ['IWM', 'LQD', 'SPY', 'UUP', 'VNQI'], exact_objective=0.018763
+
+SEED_RESULT seed=2 objective=0.018741 gap=0.000021 matches_exact=False repair_applied=False ok=True error=None
+
+BATCH_SUMMARY seeds=2-2 {'n_seeds': 1, 'n_ok': 1, 'n_failed': 0, 'n_matches_exact': 0, 'n_repair_applied': 0, 'mean_objective': 0.01874121089006714, 'std_objective': 0.0, 'min_objective': 0.01874121089006714, 'max_objective': 0.01874121089006714, 'mean_gap_to_exact': 2.1315758146879527e-05, 'max_gap_to_exact': 2.1315758146879527e-05}
+Failed to get ticker 'TLT' reason: Expecting value: line 1 column 1 (char 0)
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+Failed to get ticker 'USO' reason: Expecting value: line 1 column 1 (char 0)
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+Failed to get ticker 'JNK' reason: Expecting value: line 1 column 1 (char 0)
+$JNK: possibly delisted; no timezone found
+Failed to get ticker 'IWM' reason: Expecting value: line 1 column 1 (char 0)
+$IWM: possibly delisted; no timezone found
+Failed to get ticker 'VNQ' reason: Expecting value: line 1 column 1 (char 0)
+$VNQ: possibly delisted; no timezone found
+Failed to get ticker 'LQD' reason: Expecting value: line 1 column 1 (char 0)
+$LQD: possibly delisted; no timezone found
+Failed to get ticker 'GLD' reason: Expecting value: line 1 column 1 (char 0)
+$GLD: possibly delisted; no timezone found
+Failed to get ticker 'UUP' reason: Expecting value: line 1 column 1 (char 0)
+$UUP: possibly delisted; no timezone found
+Failed to get ticker 'SPY' reason: Expecting value: line 1 column 1 (char 0)
+$SPY: possibly delisted; no timezone found
+Failed to get ticker 'EEM' reason: Expecting value: line 1 column 1 (char 0)
+$EEM: possibly delisted; no timezone found
+Failed to get ticker 'DBC' reason: Expecting value: line 1 column 1 (char 0)
+$DBC: possibly delisted; no timezone found
+Failed to get ticker 'IEF' reason: Expecting value: line 1 column 1 (char 0)
+$IEF: possibly delisted; no timezone found
+Failed to get ticker 'VNQI' reason: Expecting value: line 1 column 1 (char 0)
+$VNQI: possibly delisted; no timezone found
+Failed to get ticker 'FXE' reason: Expecting value: line 1 column 1 (char 0)
+$FXE: possibly delisted; no timezone found
+Failed to get ticker 'EFA' reason: Expecting value: line 1 column 1 (char 0)
+$EFA: possibly delisted; no timezone found
+
+15 Failed downloads:
+['TLT', 'USO']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+['JNK', 'IWM', 'VNQ', 'LQD', 'GLD', 'UUP', 'SPY', 'EEM', 'DBC', 'IEF', 'VNQI', 'FXE', 'EFA']: possibly delisted; no timezone found
+Failed to get ticker 'TLT' reason: Expecting value: line 1 column 1 (char 0)
+$TLT: possibly delisted; no timezone found
+Failed to get ticker 'USO' reason: Expecting value: line 1 column 1 (char 0)
+$USO: possibly delisted; no timezone found
+Failed to get ticker 'JNK' reason: Expecting value: line 1 column 1 (char 0)
+$JNK: possibly delisted; no timezone found
+Failed to get ticker 'IWM' reason: Expecting value: line 1 column 1 (char 0)
+$IWM: possibly delisted; no timezone found
+Failed to get ticker 'VNQ' reason: Expecting value: line 1 column 1 (char 0)
+$VNQ: possibly delisted; no timezone found
+Failed to get ticker 'LQD' reason: Expecting value: line 1 column 1 (char 0)
+$LQD: possibly delisted; no timezone found
+Failed to get ticker 'GLD' reason: Expecting value: line 1 column 1 (char 0)
+$GLD: possibly delisted; no timezone found
+Failed to get ticker 'UUP' reason: Expecting value: line 1 column 1 (char 0)
+$UUP: possibly delisted; no timezone found
+Failed to get ticker 'SPY' reason: Expecting value: line 1 column 1 (char 0)
+$SPY: possibly delisted; no timezone found
+Failed to get ticker 'EEM' reason: Expecting value: line 1 column 1 (char 0)
+$EEM: possibly delisted; no timezone found
+Failed to get ticker 'DBC' reason: Expecting value: line 1 column 1 (char 0)
+$DBC: possibly delisted; no timezone found
+Failed to get ticker 'IEF' reason: Expecting value: line 1 column 1 (char 0)
+$IEF: possibly delisted; no timezone found
+Failed to get ticker 'VNQI' reason: Expecting value: line 1 column 1 (char 0)
+$VNQI: possibly delisted; no timezone found
+Failed to get ticker 'FXE' reason: Expecting value: line 1 column 1 (char 0)
+$FXE: possibly delisted; no timezone found
+Failed to get ticker 'EFA' reason: Expecting value: line 1 column 1 (char 0)
+$EFA: possibly delisted; no timezone found
+
+15 Failed downloads:
+['TLT', 'USO', 'JNK', 'IWM', 'VNQ', 'LQD', 'GLD', 'UUP', 'SPY', 'EEM', 'DBC', 'IEF', 'VNQI', 'FXE', 'EFA']: possibly delisted; no timezone found
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+USED_SYNTHETIC_PRICES = True
+O-set: ['IWM', 'LQD', 'SPY', 'UUP', 'VNQI'], exact_objective=0.018763
+
+SEED_RESULT seed=3 objective=0.016916 gap=0.001847 matches_exact=False repair_applied=False ok=True error=None
+
+BATCH_SUMMARY seeds=3-3 {'n_seeds': 1, 'n_ok': 1, 'n_failed': 0, 'n_matches_exact': 0, 'n_repair_applied': 0, 'mean_objective': 0.016915567285040914, 'std_objective': 0.0, 'min_objective': 0.016915567285040914, 'max_objective': 0.016915567285040914, 'mean_gap_to_exact': 0.0018469593631731049, 'max_gap_to_exact': 0.0018469593631731049}
+Failed to get ticker 'IEF' reason: Expecting value: line 1 column 1 (char 0)
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+Failed to get ticker 'JNK' reason: Expecting value: line 1 column 1 (char 0)
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+Failed to get ticker 'LQD' reason: Expecting value: line 1 column 1 (char 0)
+$LQD: possibly delisted; no timezone found
+Failed to get ticker 'USO' reason: Expecting value: line 1 column 1 (char 0)
+$USO: possibly delisted; no timezone found
+Failed to get ticker 'EEM' reason: Expecting value: line 1 column 1 (char 0)
+$EEM: possibly delisted; no timezone found
+Failed to get ticker 'FXE' reason: Expecting value: line 1 column 1 (char 0)
+$FXE: possibly delisted; no timezone found
+Failed to get ticker 'IWM' reason: Expecting value: line 1 column 1 (char 0)
+$IWM: possibly delisted; no timezone found
+Failed to get ticker 'VNQ' reason: Expecting value: line 1 column 1 (char 0)
+$VNQ: possibly delisted; no timezone found
+Failed to get ticker 'VNQI' reason: Expecting value: line 1 column 1 (char 0)
+$VNQI: possibly delisted; no timezone found
+Failed to get ticker 'TLT' reason: Expecting value: line 1 column 1 (char 0)
+$TLT: possibly delisted; no timezone found
+Failed to get ticker 'EFA' reason: Expecting value: line 1 column 1 (char 0)
+$EFA: possibly delisted; no timezone found
+Failed to get ticker 'UUP' reason: Expecting value: line 1 column 1 (char 0)
+$UUP: possibly delisted; no timezone found
+Failed to get ticker 'GLD' reason: Expecting value: line 1 column 1 (char 0)
+$GLD: possibly delisted; no timezone found
+Failed to get ticker 'DBC' reason: Expecting value: line 1 column 1 (char 0)
+$DBC: possibly delisted; no timezone found
+Failed to get ticker 'SPY' reason: Expecting value: line 1 column 1 (char 0)
+$SPY: possibly delisted; no timezone found
+
+15 Failed downloads:
+['IEF', 'JNK']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+['LQD', 'USO', 'EEM', 'FXE', 'IWM', 'VNQ', 'VNQI', 'TLT', 'EFA', 'UUP', 'GLD', 'DBC', 'SPY']: possibly delisted; no timezone found
+Failed to get ticker 'IEF' reason: Expecting value: line 1 column 1 (char 0)
+$IEF: possibly delisted; no timezone found
+Failed to get ticker 'JNK' reason: Expecting value: line 1 column 1 (char 0)
+$JNK: possibly delisted; no timezone found
+Failed to get ticker 'LQD' reason: Expecting value: line 1 column 1 (char 0)
+$LQD: possibly delisted; no timezone found
+Failed to get ticker 'USO' reason: Expecting value: line 1 column 1 (char 0)
+$USO: possibly delisted; no timezone found
+Failed to get ticker 'EEM' reason: Expecting value: line 1 column 1 (char 0)
+$EEM: possibly delisted; no timezone found
+Failed to get ticker 'FXE' reason: Expecting value: line 1 column 1 (char 0)
+$FXE: possibly delisted; no timezone found
+Failed to get ticker 'IWM' reason: Expecting value: line 1 column 1 (char 0)
+$IWM: possibly delisted; no timezone found
+Failed to get ticker 'VNQ' reason: Expecting value: line 1 column 1 (char 0)
+$VNQ: possibly delisted; no timezone found
+Failed to get ticker 'VNQI' reason: Expecting value: line 1 column 1 (char 0)
+$VNQI: possibly delisted; no timezone found
+Failed to get ticker 'TLT' reason: Expecting value: line 1 column 1 (char 0)
+$TLT: possibly delisted; no timezone found
+Failed to get ticker 'EFA' reason: Expecting value: line 1 column 1 (char 0)
+$EFA: possibly delisted; no timezone found
+Failed to get ticker 'UUP' reason: Expecting value: line 1 column 1 (char 0)
+$UUP: possibly delisted; no timezone found
+Failed to get ticker 'GLD' reason: Expecting value: line 1 column 1 (char 0)
+$GLD: possibly delisted; no timezone found
+Failed to get ticker 'DBC' reason: Expecting value: line 1 column 1 (char 0)
+$DBC: possibly delisted; no timezone found
+Failed to get ticker 'SPY' reason: Expecting value: line 1 column 1 (char 0)
+$SPY: possibly delisted; no timezone found
+
+15 Failed downloads:
+['IEF', 'JNK', 'LQD', 'USO', 'EEM', 'FXE', 'IWM', 'VNQ', 'VNQI', 'TLT', 'EFA', 'UUP', 'GLD', 'DBC', 'SPY']: possibly delisted; no timezone found
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+USED_SYNTHETIC_PRICES = True
+O-set: ['IWM', 'LQD', 'SPY', 'UUP', 'VNQI'], exact_objective=0.018763
+
+SEED_RESULT seed=4 objective=0.017953 gap=0.000810 matches_exact=False repair_applied=False ok=True error=None
+
+BATCH_SUMMARY seeds=4-4 {'n_seeds': 1, 'n_ok': 1, 'n_failed': 0, 'n_matches_exact': 0, 'n_repair_applied': 0, 'mean_objective': 0.01795258932948293, 'std_objective': 0.0, 'min_objective': 0.01795258932948293, 'max_objective': 0.01795258932948293, 'mean_gap_to_exact': 0.0008099373187310903, 'max_gap_to_exact': 0.0008099373187310903}
+Failed to get ticker 'FXE' reason: Expecting value: line 1 column 1 (char 0)
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+Failed to get ticker 'EFA' reason: Expecting value: line 1 column 1 (char 0)
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+Failed to get ticker 'VNQ' reason: Expecting value: line 1 column 1 (char 0)
+$VNQ: possibly delisted; no timezone found
+Failed to get ticker 'VNQI' reason: Expecting value: line 1 column 1 (char 0)
+$VNQI: possibly delisted; no timezone found
+Failed to get ticker 'UUP' reason: Expecting value: line 1 column 1 (char 0)
+$UUP: possibly delisted; no timezone found
+Failed to get ticker 'IWM' reason: Expecting value: line 1 column 1 (char 0)
+$IWM: possibly delisted; no timezone found
+Failed to get ticker 'LQD' reason: Expecting value: line 1 column 1 (char 0)
+$LQD: possibly delisted; no timezone found
+Failed to get ticker 'JNK' reason: Expecting value: line 1 column 1 (char 0)
+$JNK: possibly delisted; no timezone found
+Failed to get ticker 'GLD' reason: Expecting value: line 1 column 1 (char 0)
+$GLD: possibly delisted; no timezone found
+Failed to get ticker 'IEF' reason: Expecting value: line 1 column 1 (char 0)
+$IEF: possibly delisted; no timezone found
+Failed to get ticker 'SPY' reason: Expecting value: line 1 column 1 (char 0)
+$SPY: possibly delisted; no timezone found
+Failed to get ticker 'USO' reason: Expecting value: line 1 column 1 (char 0)
+$USO: possibly delisted; no timezone found
+Failed to get ticker 'DBC' reason: Expecting value: line 1 column 1 (char 0)
+$DBC: possibly delisted; no timezone found
+Failed to get ticker 'EEM' reason: Expecting value: line 1 column 1 (char 0)
+$EEM: possibly delisted; no timezone found
+Failed to get ticker 'TLT' reason: Expecting value: line 1 column 1 (char 0)
+$TLT: possibly delisted; no timezone found
+
+15 Failed downloads:
+['FXE', 'EFA']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+['VNQ', 'VNQI', 'UUP', 'IWM', 'LQD', 'JNK', 'GLD', 'IEF', 'SPY', 'USO', 'DBC', 'EEM', 'TLT']: possibly delisted; no timezone found
+Failed to get ticker 'FXE' reason: Expecting value: line 1 column 1 (char 0)
+$FXE: possibly delisted; no timezone found
+Failed to get ticker 'EFA' reason: Expecting value: line 1 column 1 (char 0)
+$EFA: possibly delisted; no timezone found
+Failed to get ticker 'VNQ' reason: Expecting value: line 1 column 1 (char 0)
+$VNQ: possibly delisted; no timezone found
+Failed to get ticker 'VNQI' reason: Expecting value: line 1 column 1 (char 0)
+$VNQI: possibly delisted; no timezone found
+Failed to get ticker 'UUP' reason: Expecting value: line 1 column 1 (char 0)
+$UUP: possibly delisted; no timezone found
+Failed to get ticker 'IWM' reason: Expecting value: line 1 column 1 (char 0)
+$IWM: possibly delisted; no timezone found
+Failed to get ticker 'LQD' reason: Expecting value: line 1 column 1 (char 0)
+$LQD: possibly delisted; no timezone found
+Failed to get ticker 'JNK' reason: Expecting value: line 1 column 1 (char 0)
+$JNK: possibly delisted; no timezone found
+Failed to get ticker 'GLD' reason: Expecting value: line 1 column 1 (char 0)
+$GLD: possibly delisted; no timezone found
+Failed to get ticker 'IEF' reason: Expecting value: line 1 column 1 (char 0)
+$IEF: possibly delisted; no timezone found
+Failed to get ticker 'SPY' reason: Expecting value: line 1 column 1 (char 0)
+$SPY: possibly delisted; no timezone found
+Failed to get ticker 'USO' reason: Expecting value: line 1 column 1 (char 0)
+$USO: possibly delisted; no timezone found
+Failed to get ticker 'DBC' reason: Expecting value: line 1 column 1 (char 0)
+$DBC: possibly delisted; no timezone found
+Failed to get ticker 'EEM' reason: Expecting value: line 1 column 1 (char 0)
+$EEM: possibly delisted; no timezone found
+Failed to get ticker 'TLT' reason: Expecting value: line 1 column 1 (char 0)
+$TLT: possibly delisted; no timezone found
+
+15 Failed downloads:
+['FXE', 'EFA', 'VNQ', 'VNQI', 'UUP', 'IWM', 'LQD', 'JNK', 'GLD', 'IEF', 'SPY', 'USO', 'DBC', 'EEM', 'TLT']: possibly delisted; no timezone found
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+USED_SYNTHETIC_PRICES = True
+O-set: ['IWM', 'LQD', 'SPY', 'UUP', 'VNQI'], exact_objective=0.018763
+
+SEED_RESULT seed=5 objective=0.018741 gap=0.000021 matches_exact=False repair_applied=False ok=True error=None
+
+BATCH_SUMMARY seeds=5-5 {'n_seeds': 1, 'n_ok': 1, 'n_failed': 0, 'n_matches_exact': 0, 'n_repair_applied': 0, 'mean_objective': 0.01874121089006714, 'std_objective': 0.0, 'min_objective': 0.01874121089006714, 'max_objective': 0.01874121089006714, 'mean_gap_to_exact': 2.1315758146879527e-05, 'max_gap_to_exact': 2.1315758146879527e-05}
+Failed to get ticker 'VNQ' reason: Expecting value: line 1 column 1 (char 0)
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+Failed to get ticker 'GLD' reason: Expecting value: line 1 column 1 (char 0)
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+Failed to get ticker 'IWM' reason: Expecting value: line 1 column 1 (char 0)
+$IWM: possibly delisted; no timezone found
+Failed to get ticker 'EFA' reason: Expecting value: line 1 column 1 (char 0)
+$EFA: possibly delisted; no timezone found
+Failed to get ticker 'USO' reason: Expecting value: line 1 column 1 (char 0)
+$USO: possibly delisted; no timezone found
+Failed to get ticker 'SPY' reason: Expecting value: line 1 column 1 (char 0)
+$SPY: possibly delisted; no timezone found
+Failed to get ticker 'JNK' reason: Expecting value: line 1 column 1 (char 0)
+$JNK: possibly delisted; no timezone found
+Failed to get ticker 'UUP' reason: Expecting value: line 1 column 1 (char 0)
+$UUP: possibly delisted; no timezone found
+Failed to get ticker 'DBC' reason: Expecting value: line 1 column 1 (char 0)
+$DBC: possibly delisted; no timezone found
+Failed to get ticker 'IEF' reason: Expecting value: line 1 column 1 (char 0)
+$IEF: possibly delisted; no timezone found
+Failed to get ticker 'TLT' reason: Expecting value: line 1 column 1 (char 0)
+$TLT: possibly delisted; no timezone found
+Failed to get ticker 'LQD' reason: Expecting value: line 1 column 1 (char 0)
+$LQD: possibly delisted; no timezone found
+Failed to get ticker 'EEM' reason: Expecting value: line 1 column 1 (char 0)
+$EEM: possibly delisted; no timezone found
+Failed to get ticker 'VNQI' reason: Expecting value: line 1 column 1 (char 0)
+$VNQI: possibly delisted; no timezone found
+Failed to get ticker 'FXE' reason: Expecting value: line 1 column 1 (char 0)
+$FXE: possibly delisted; no timezone found
+
+15 Failed downloads:
+['VNQ', 'GLD']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+['IWM', 'EFA', 'USO', 'SPY', 'JNK', 'UUP', 'DBC', 'IEF', 'TLT', 'LQD', 'EEM', 'VNQI', 'FXE']: possibly delisted; no timezone found
+Failed to get ticker 'VNQ' reason: Expecting value: line 1 column 1 (char 0)
+$VNQ: possibly delisted; no timezone found
+Failed to get ticker 'GLD' reason: Expecting value: line 1 column 1 (char 0)
+$GLD: possibly delisted; no timezone found
+Failed to get ticker 'IWM' reason: Expecting value: line 1 column 1 (char 0)
+$IWM: possibly delisted; no timezone found
+Failed to get ticker 'EFA' reason: Expecting value: line 1 column 1 (char 0)
+$EFA: possibly delisted; no timezone found
+Failed to get ticker 'USO' reason: Expecting value: line 1 column 1 (char 0)
+$USO: possibly delisted; no timezone found
+Failed to get ticker 'SPY' reason: Expecting value: line 1 column 1 (char 0)
+$SPY: possibly delisted; no timezone found
+Failed to get ticker 'JNK' reason: Expecting value: line 1 column 1 (char 0)
+$JNK: possibly delisted; no timezone found
+Failed to get ticker 'UUP' reason: Expecting value: line 1 column 1 (char 0)
+$UUP: possibly delisted; no timezone found
+Failed to get ticker 'DBC' reason: Expecting value: line 1 column 1 (char 0)
+$DBC: possibly delisted; no timezone found
+Failed to get ticker 'IEF' reason: Expecting value: line 1 column 1 (char 0)
+$IEF: possibly delisted; no timezone found
+Failed to get ticker 'TLT' reason: Expecting value: line 1 column 1 (char 0)
+$TLT: possibly delisted; no timezone found
+Failed to get ticker 'LQD' reason: Expecting value: line 1 column 1 (char 0)
+$LQD: possibly delisted; no timezone found
+Failed to get ticker 'EEM' reason: Expecting value: line 1 column 1 (char 0)
+$EEM: possibly delisted; no timezone found
+Failed to get ticker 'VNQI' reason: Expecting value: line 1 column 1 (char 0)
+$VNQI: possibly delisted; no timezone found
+Failed to get ticker 'FXE' reason: Expecting value: line 1 column 1 (char 0)
+$FXE: possibly delisted; no timezone found
+
+15 Failed downloads:
+['VNQ', 'GLD', 'IWM', 'EFA', 'USO', 'SPY', 'JNK', 'UUP', 'DBC', 'IEF', 'TLT', 'LQD', 'EEM', 'VNQI', 'FXE']: possibly delisted; no timezone found
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+USED_SYNTHETIC_PRICES = True
+O-set: ['IWM', 'LQD', 'SPY', 'UUP', 'VNQI'], exact_objective=0.018763
+
+SEED_RESULT seed=6 objective=0.018762 gap=0.000000 matches_exact=False repair_applied=True ok=True error=None
+
+BATCH_SUMMARY seeds=6-6 {'n_seeds': 1, 'n_ok': 1, 'n_failed': 0, 'n_matches_exact': 0, 'n_repair_applied': 1, 'mean_objective': 0.01876229504273193, 'std_objective': 0.0, 'min_objective': 0.01876229504273193, 'max_objective': 0.01876229504273193, 'mean_gap_to_exact': 2.3160548208792098e-07, 'max_gap_to_exact': 2.3160548208792098e-07}
+Failed to get ticker 'EFA' reason: Expecting value: line 1 column 1 (char 0)
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+Failed to get ticker 'EEM' reason: Expecting value: line 1 column 1 (char 0)
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+Failed to get ticker 'TLT' reason: Expecting value: line 1 column 1 (char 0)
+$TLT: possibly delisted; no timezone found
+Failed to get ticker 'IEF' reason: Expecting value: line 1 column 1 (char 0)
+$IEF: possibly delisted; no timezone found
+Failed to get ticker 'FXE' reason: Expecting value: line 1 column 1 (char 0)
+$FXE: possibly delisted; no timezone found
+Failed to get ticker 'UUP' reason: Expecting value: line 1 column 1 (char 0)
+$UUP: possibly delisted; no timezone found
+Failed to get ticker 'JNK' reason: Expecting value: line 1 column 1 (char 0)
+$JNK: possibly delisted; no timezone found
+Failed to get ticker 'USO' reason: Expecting value: line 1 column 1 (char 0)
+$USO: possibly delisted; no timezone found
+Failed to get ticker 'DBC' reason: Expecting value: line 1 column 1 (char 0)
+$DBC: possibly delisted; no timezone found
+Failed to get ticker 'GLD' reason: Expecting value: line 1 column 1 (char 0)
+$GLD: possibly delisted; no timezone found
+Failed to get ticker 'IWM' reason: Expecting value: line 1 column 1 (char 0)
+$IWM: possibly delisted; no timezone found
+Failed to get ticker 'VNQ' reason: Expecting value: line 1 column 1 (char 0)
+$VNQ: possibly delisted; no timezone found
+Failed to get ticker 'SPY' reason: Expecting value: line 1 column 1 (char 0)
+$SPY: possibly delisted; no timezone found
+Failed to get ticker 'LQD' reason: Expecting value: line 1 column 1 (char 0)
+$LQD: possibly delisted; no timezone found
+Failed to get ticker 'VNQI' reason: Expecting value: line 1 column 1 (char 0)
+$VNQI: possibly delisted; no timezone found
+
+15 Failed downloads:
+['EFA', 'EEM']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+['TLT', 'IEF', 'FXE', 'UUP', 'JNK', 'USO', 'DBC', 'GLD', 'IWM', 'VNQ', 'SPY', 'LQD', 'VNQI']: possibly delisted; no timezone found
+Failed to get ticker 'EFA' reason: Expecting value: line 1 column 1 (char 0)
+$EFA: possibly delisted; no timezone found
+Failed to get ticker 'EEM' reason: Expecting value: line 1 column 1 (char 0)
+$EEM: possibly delisted; no timezone found
+Failed to get ticker 'TLT' reason: Expecting value: line 1 column 1 (char 0)
+$TLT: possibly delisted; no timezone found
+Failed to get ticker 'IEF' reason: Expecting value: line 1 column 1 (char 0)
+$IEF: possibly delisted; no timezone found
+Failed to get ticker 'FXE' reason: Expecting value: line 1 column 1 (char 0)
+$FXE: possibly delisted; no timezone found
+Failed to get ticker 'UUP' reason: Expecting value: line 1 column 1 (char 0)
+$UUP: possibly delisted; no timezone found
+Failed to get ticker 'JNK' reason: Expecting value: line 1 column 1 (char 0)
+$JNK: possibly delisted; no timezone found
+Failed to get ticker 'USO' reason: Expecting value: line 1 column 1 (char 0)
+$USO: possibly delisted; no timezone found
+Failed to get ticker 'DBC' reason: Expecting value: line 1 column 1 (char 0)
+$DBC: possibly delisted; no timezone found
+Failed to get ticker 'GLD' reason: Expecting value: line 1 column 1 (char 0)
+$GLD: possibly delisted; no timezone found
+Failed to get ticker 'IWM' reason: Expecting value: line 1 column 1 (char 0)
+$IWM: possibly delisted; no timezone found
+Failed to get ticker 'VNQ' reason: Expecting value: line 1 column 1 (char 0)
+$VNQ: possibly delisted; no timezone found
+Failed to get ticker 'SPY' reason: Expecting value: line 1 column 1 (char 0)
+$SPY: possibly delisted; no timezone found
+Failed to get ticker 'LQD' reason: Expecting value: line 1 column 1 (char 0)
+$LQD: possibly delisted; no timezone found
+Failed to get ticker 'VNQI' reason: Expecting value: line 1 column 1 (char 0)
+$VNQI: possibly delisted; no timezone found
+
+15 Failed downloads:
+['EFA', 'EEM', 'TLT', 'IEF', 'FXE', 'UUP', 'JNK', 'USO', 'DBC', 'GLD', 'IWM', 'VNQ', 'SPY', 'LQD', 'VNQI']: possibly delisted; no timezone found
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+USED_SYNTHETIC_PRICES = True
+O-set: ['IWM', 'LQD', 'SPY', 'UUP', 'VNQI'], exact_objective=0.018763
+
+SEED_RESULT seed=7 objective=0.017503 gap=0.001259 matches_exact=False repair_applied=False ok=True error=None
+
+BATCH_SUMMARY seeds=7-7 {'n_seeds': 1, 'n_ok': 1, 'n_failed': 0, 'n_matches_exact': 0, 'n_repair_applied': 0, 'mean_objective': 0.01750339623977047, 'std_objective': 0.0, 'min_objective': 0.01750339623977047, 'max_objective': 0.01750339623977047, 'mean_gap_to_exact': 0.0012591304084435505, 'max_gap_to_exact': 0.0012591304084435505}
+Failed to get ticker 'JNK' reason: Expecting value: line 1 column 1 (char 0)
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+Failed to get ticker 'TLT' reason: Expecting value: line 1 column 1 (char 0)
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+Failed to get ticker 'LQD' reason: Expecting value: line 1 column 1 (char 0)
+$LQD: possibly delisted; no timezone found
+Failed to get ticker 'FXE' reason: Expecting value: line 1 column 1 (char 0)
+$FXE: possibly delisted; no timezone found
+Failed to get ticker 'VNQI' reason: Expecting value: line 1 column 1 (char 0)
+$VNQI: possibly delisted; no timezone found
+Failed to get ticker 'IWM' reason: Expecting value: line 1 column 1 (char 0)
+$IWM: possibly delisted; no timezone found
+Failed to get ticker 'GLD' reason: Expecting value: line 1 column 1 (char 0)
+$GLD: possibly delisted; no timezone found
+Failed to get ticker 'UUP' reason: Expecting value: line 1 column 1 (char 0)
+$UUP: possibly delisted; no timezone found
+Failed to get ticker 'USO' reason: Expecting value: line 1 column 1 (char 0)
+$USO: possibly delisted; no timezone found
+Failed to get ticker 'SPY' reason: Expecting value: line 1 column 1 (char 0)
+$SPY: possibly delisted; no timezone found
+Failed to get ticker 'EEM' reason: Expecting value: line 1 column 1 (char 0)
+$EEM: possibly delisted; no timezone found
+Failed to get ticker 'VNQ' reason: Expecting value: line 1 column 1 (char 0)
+$VNQ: possibly delisted; no timezone found
+Failed to get ticker 'EFA' reason: Expecting value: line 1 column 1 (char 0)
+$EFA: possibly delisted; no timezone found
+Failed to get ticker 'DBC' reason: Expecting value: line 1 column 1 (char 0)
+$DBC: possibly delisted; no timezone found
+Failed to get ticker 'IEF' reason: Expecting value: line 1 column 1 (char 0)
+$IEF: possibly delisted; no timezone found
+
+15 Failed downloads:
+['JNK', 'TLT']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+['LQD', 'FXE', 'VNQI', 'IWM', 'GLD', 'UUP', 'USO', 'SPY', 'EEM', 'VNQ', 'EFA', 'DBC', 'IEF']: possibly delisted; no timezone found
+Failed to get ticker 'JNK' reason: Expecting value: line 1 column 1 (char 0)
+$JNK: possibly delisted; no timezone found
+Failed to get ticker 'TLT' reason: Expecting value: line 1 column 1 (char 0)
+$TLT: possibly delisted; no timezone found
+Failed to get ticker 'LQD' reason: Expecting value: line 1 column 1 (char 0)
+$LQD: possibly delisted; no timezone found
+Failed to get ticker 'FXE' reason: Expecting value: line 1 column 1 (char 0)
+$FXE: possibly delisted; no timezone found
+Failed to get ticker 'VNQI' reason: Expecting value: line 1 column 1 (char 0)
+$VNQI: possibly delisted; no timezone found
+Failed to get ticker 'IWM' reason: Expecting value: line 1 column 1 (char 0)
+$IWM: possibly delisted; no timezone found
+Failed to get ticker 'GLD' reason: Expecting value: line 1 column 1 (char 0)
+$GLD: possibly delisted; no timezone found
+Failed to get ticker 'UUP' reason: Expecting value: line 1 column 1 (char 0)
+$UUP: possibly delisted; no timezone found
+Failed to get ticker 'USO' reason: Expecting value: line 1 column 1 (char 0)
+$USO: possibly delisted; no timezone found
+Failed to get ticker 'SPY' reason: Expecting value: line 1 column 1 (char 0)
+$SPY: possibly delisted; no timezone found
+Failed to get ticker 'EEM' reason: Expecting value: line 1 column 1 (char 0)
+$EEM: possibly delisted; no timezone found
+Failed to get ticker 'VNQ' reason: Expecting value: line 1 column 1 (char 0)
+$VNQ: possibly delisted; no timezone found
+Failed to get ticker 'EFA' reason: Expecting value: line 1 column 1 (char 0)
+$EFA: possibly delisted; no timezone found
+Failed to get ticker 'DBC' reason: Expecting value: line 1 column 1 (char 0)
+$DBC: possibly delisted; no timezone found
+Failed to get ticker 'IEF' reason: Expecting value: line 1 column 1 (char 0)
+$IEF: possibly delisted; no timezone found
+
+15 Failed downloads:
+['JNK', 'TLT', 'LQD', 'FXE', 'VNQI', 'IWM', 'GLD', 'UUP', 'USO', 'SPY', 'EEM', 'VNQ', 'EFA', 'DBC', 'IEF']: possibly delisted; no timezone found
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+USED_SYNTHETIC_PRICES = True
+O-set: ['IWM', 'LQD', 'SPY', 'UUP', 'VNQI'], exact_objective=0.018763
+
+SEED_RESULT seed=8 objective=0.018741 gap=0.000021 matches_exact=False repair_applied=False ok=True error=None
+
+BATCH_SUMMARY seeds=8-8 {'n_seeds': 1, 'n_ok': 1, 'n_failed': 0, 'n_matches_exact': 0, 'n_repair_applied': 0, 'mean_objective': 0.01874121089006714, 'std_objective': 0.0, 'min_objective': 0.01874121089006714, 'max_objective': 0.01874121089006714, 'mean_gap_to_exact': 2.1315758146879527e-05, 'max_gap_to_exact': 2.1315758146879527e-05}
+Failed to get ticker 'EFA' reason: Expecting value: line 1 column 1 (char 0)
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+Failed to get ticker 'UUP' reason: Expecting value: line 1 column 1 (char 0)
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+Failed to get ticker 'VNQI' reason: Expecting value: line 1 column 1 (char 0)
+$VNQI: possibly delisted; no timezone found
+Failed to get ticker 'JNK' reason: Expecting value: line 1 column 1 (char 0)
+$JNK: possibly delisted; no timezone found
+Failed to get ticker 'IWM' reason: Expecting value: line 1 column 1 (char 0)
+$IWM: possibly delisted; no timezone found
+Failed to get ticker 'DBC' reason: Expecting value: line 1 column 1 (char 0)
+$DBC: possibly delisted; no timezone found
+Failed to get ticker 'EEM' reason: Expecting value: line 1 column 1 (char 0)
+$EEM: possibly delisted; no timezone found
+Failed to get ticker 'SPY' reason: Expecting value: line 1 column 1 (char 0)
+$SPY: possibly delisted; no timezone found
+Failed to get ticker 'LQD' reason: Expecting value: line 1 column 1 (char 0)
+$LQD: possibly delisted; no timezone found
+Failed to get ticker 'GLD' reason: Expecting value: line 1 column 1 (char 0)
+$GLD: possibly delisted; no timezone found
+Failed to get ticker 'IEF' reason: Expecting value: line 1 column 1 (char 0)
+$IEF: possibly delisted; no timezone found
+Failed to get ticker 'VNQ' reason: Expecting value: line 1 column 1 (char 0)
+$VNQ: possibly delisted; no timezone found
+Failed to get ticker 'TLT' reason: Expecting value: line 1 column 1 (char 0)
+$TLT: possibly delisted; no timezone found
+Failed to get ticker 'USO' reason: Expecting value: line 1 column 1 (char 0)
+$USO: possibly delisted; no timezone found
+Failed to get ticker 'FXE' reason: Expecting value: line 1 column 1 (char 0)
+$FXE: possibly delisted; no timezone found
+
+15 Failed downloads:
+['EFA', 'UUP']: JSONDecodeError('Expecting value: line 1 column 1 (char 0)')
+['VNQI', 'JNK', 'IWM', 'DBC', 'EEM', 'SPY', 'LQD', 'GLD', 'IEF', 'VNQ', 'TLT', 'USO', 'FXE']: possibly delisted; no timezone found
+Failed to get ticker 'EFA' reason: Expecting value: line 1 column 1 (char 0)
+$EFA: possibly delisted; no timezone found
+Failed to get ticker 'UUP' reason: Expecting value: line 1 column 1 (char 0)
+$UUP: possibly delisted; no timezone found
+Failed to get ticker 'VNQI' reason: Expecting value: line 1 column 1 (char 0)
+$VNQI: possibly delisted; no timezone found
+Failed to get ticker 'JNK' reason: Expecting value: line 1 column 1 (char 0)
+$JNK: possibly delisted; no timezone found
+Failed to get ticker 'IWM' reason: Expecting value: line 1 column 1 (char 0)
+$IWM: possibly delisted; no timezone found
+Failed to get ticker 'DBC' reason: Expecting value: line 1 column 1 (char 0)
+$DBC: possibly delisted; no timezone found
+Failed to get ticker 'EEM' reason: Expecting value: line 1 column 1 (char 0)
+$EEM: possibly delisted; no timezone found
+Failed to get ticker 'SPY' reason: Expecting value: line 1 column 1 (char 0)
+$SPY: possibly delisted; no timezone found
+Failed to get ticker 'LQD' reason: Expecting value: line 1 column 1 (char 0)
+$LQD: possibly delisted; no timezone found
+Failed to get ticker 'GLD' reason: Expecting value: line 1 column 1 (char 0)
+$GLD: possibly delisted; no timezone found
+Failed to get ticker 'IEF' reason: Expecting value: line 1 column 1 (char 0)
+$IEF: possibly delisted; no timezone found
+Failed to get ticker 'VNQ' reason: Expecting value: line 1 column 1 (char 0)
+$VNQ: possibly delisted; no timezone found
+Failed to get ticker 'TLT' reason: Expecting value: line 1 column 1 (char 0)
+$TLT: possibly delisted; no timezone found
+Failed to get ticker 'USO' reason: Expecting value: line 1 column 1 (char 0)
+$USO: possibly delisted; no timezone found
+Failed to get ticker 'FXE' reason: Expecting value: line 1 column 1 (char 0)
+$FXE: possibly delisted; no timezone found
+
+15 Failed downloads:
+['EFA', 'UUP', 'VNQI', 'JNK', 'IWM', 'DBC', 'EEM', 'SPY', 'LQD', 'GLD', 'IEF', 'VNQ', 'TLT', 'USO', 'FXE']: possibly delisted; no timezone found
+HTTP Error 403: Host not in allowlist: query2.finance.yahoo.com. Add this host to your network egress settings to allow access.
+HTTP Error 403: Host not in allowlist: query1.finance.yahoo.com. Add this host to your network egress settings to allow access.
+USED_SYNTHETIC_PRICES = True
+O-set: ['IWM', 'LQD', 'SPY', 'UUP', 'VNQI'], exact_objective=0.018763
+
+SEED_RESULT seed=9 objective=0.017679 gap=0.001083 matches_exact=False repair_applied=False ok=True error=None
+
+BATCH_SUMMARY seeds=9-9 {'n_seeds': 1, 'n_ok': 1, 'n_failed': 0, 'n_matches_exact': 0, 'n_repair_applied': 0, 'mean_objective': 0.01767938984710289, 'std_objective': 0.0, 'min_objective': 0.01767938984710289, 'max_objective': 0.01767938984710289, 'mean_gap_to_exact': 0.0010831368011111273, 'max_gap_to_exact': 0.0010831368011111273}
