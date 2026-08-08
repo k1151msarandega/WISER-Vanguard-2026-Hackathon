@@ -97,7 +97,15 @@ col1, col2 = st.columns([2, 1])
 with col1:
     st.subheader("Asset Scores & Partition")
     st.caption("Updates instantly as dials move — this is the fast classical layer.")
-    plot_df = scores_df.reset_index().rename(columns={"index": "ticker"})
+    # Force the index name to "ticker" before reset_index() rather than
+    # relying on rename({"index": "ticker"}) -- that only works if the
+    # source index has NO name. Real yfinance pulls carry a named index
+    # through (e.g. "Ticker"), which reset_index() uses instead of
+    # "index", silently breaking the rename and causing a KeyError on
+    # real data that never showed up against the synthetic fallback.
+    plot_df = scores_df.copy()
+    plot_df.index = plot_df.index.rename("ticker")
+    plot_df = plot_df.reset_index()
     bucket_of = {t: "H (Hold)" for t in partition["H"]}
     bucket_of.update({t: "O (Optimize)" for t in partition["O"]})
     bucket_of.update({t: "S (Skip)" for t in partition["S"]})
@@ -192,7 +200,11 @@ if st.session_state.pipeline_result is not None:
         "H/O/S + QAOA": result.qaoa_full_weights,
         "Markowitz": mw["weights"],
     })
-    comp_df = comp_df[(comp_df.T != 0).any()].reset_index().rename(columns={"index": "ticker"})
+    comp_df = comp_df[(comp_df.T != 0).any()]
+    comp_df.index = comp_df.index.rename("ticker")  # same fix as above -- don't rely on
+                                                      # rename({"index": "ticker"}), which
+                                                      # silently no-ops on a named index
+    comp_df = comp_df.reset_index()
     comp_long = comp_df.melt(id_vars="ticker", var_name="Method", value_name="Weight")
     fig2 = px.bar(comp_long, x="ticker", y="Weight", color="Method", barmode="group")
     fig2.update_layout(height=350, margin=dict(t=10, b=10), yaxis_tickformat=".0%")
