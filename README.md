@@ -15,8 +15,8 @@ vanguard-quantum-portfolio/
 │   ├── baseline/           # classical Markowitz baseline (real Sharpe ratio)
 │   ├── partitioning/       # H/O/S logic (dial-based scoring, convex-optimized H allocation)
 │   ├── quantum/            # QUBO formulation, warm-start + multi-restart QAOA
-│   └── validation/         # Week 3: MPS-vs-partitioning scaling ablation (done),
-│                           # equal-footing benchmarks/walk-forward (not yet)
+│   └── validation/         # scaling, classical benchmarks, walk-forward,
+│                           # and multi-seed variance validation
 ├── docs/                   # write-ups too detailed for the README (e.g. scaling findings)
 ├── notebooks/               # what you open in Colab
 ├── app/                    # portfolio co-pilot demo (Streamlit, built)
@@ -103,11 +103,12 @@ network access, not as a data source for real results.
       reported objective on one instance. Tested on only two instances, not
       yet a systematic sweep — that's the remaining gap along with
       multi-seed variance reporting and walk-forward validation.
-- [ ] **Week 4** (Aug 4–7): buffer, writeup, packaging. Stretch goal moved
-      here (lower priority than required deliverables): properly test QAOA
-      depth p≥3 with an optimization budget that scales with the parameter
-      count, to separate "depth stops helping" from "fixed budget stops being
-      adequate" — currently confounded (see `docs/mps_scaling_findings.md`).
+- [x] **Week 4** (Aug 4–7): packaging and final response drafting.
+      Submission-ready short responses are in
+      `docs/submission_responses.md`. Walk-forward validation and multi-seed
+      variance reporting are now documented in `docs/walk_forward_findings.md`
+      and `docs/multi_seed_variance_findings.md`; the p≥3 scaled-budget depth
+      study remains a future-work item, not a required-deliverable gap.
 
 ### Real data sourcing (post-Week-2)
 
@@ -239,9 +240,9 @@ documented as caveats:
 ## Guardrails enforced (hard constraints in the classical baseline)
 
 - Per-asset weight cap: 25%
-- Asset-class exposure caps: Equities 60%, Fixed Income 55%, Commodities 20%,
+- Asset-class exposure caps: Equities 80%, Fixed Income 80%, Commodities 20%,
   Currencies 15%, Alternatives 20%
-- Turnover cap (configurable)
+- Turnover cap (configurable; not yet reported in walk-forward results)
 
 ## Install
 
