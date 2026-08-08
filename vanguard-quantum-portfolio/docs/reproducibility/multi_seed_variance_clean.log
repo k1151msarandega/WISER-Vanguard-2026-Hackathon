@@ -1,0 +1,80 @@
+
+
+USED_SYNTHETIC_PRICES = True
+O-set: ['IWM', 'LQD', 'SPY', 'UUP', 'VNQI'], exact_objective=0.018763
+
+SEED_RESULT seed=0 objective=0.018741 gap=0.000021 matches_exact=False repair_applied=False ok=True error=None
+
+BATCH_SUMMARY seeds=0-0 {'n_seeds': 1, 'n_ok': 1, 'n_failed': 0, 'n_matches_exact': 0, 'n_repair_applied': 0, 'mean_objective': 0.01874121089006714, 'std_objective': 0.0, 'min_objective': 0.01874121089006714, 'max_objective': 0.01874121089006714, 'mean_gap_to_exact': 2.1315758146879527e-05, 'max_gap_to_exact': 2.1315758146879527e-05}
+
+
+USED_SYNTHETIC_PRICES = True
+O-set: ['IWM', 'LQD', 'SPY', 'UUP', 'VNQI'], exact_objective=0.018763
+
+SEED_RESULT seed=1 objective=0.016916 gap=0.001847 matches_exact=False repair_applied=False ok=True error=None
+
+BATCH_SUMMARY seeds=1-1 {'n_seeds': 1, 'n_ok': 1, 'n_failed': 0, 'n_matches_exact': 0, 'n_repair_applied': 0, 'mean_objective': 0.016915567285040914, 'std_objective': 0.0, 'min_objective': 0.016915567285040914, 'max_objective': 0.016915567285040914, 'mean_gap_to_exact': 0.0018469593631731049, 'max_gap_to_exact': 0.0018469593631731049}
+
+
+USED_SYNTHETIC_PRICES = True
+O-set: ['IWM', 'LQD', 'SPY', 'UUP', 'VNQI'], exact_objective=0.018763
+
+SEED_RESULT seed=2 objective=0.018741 gap=0.000021 matches_exact=False repair_applied=False ok=True error=None
+
+BATCH_SUMMARY seeds=2-2 {'n_seeds': 1, 'n_ok': 1, 'n_failed': 0, 'n_matches_exact': 0, 'n_repair_applied': 0, 'mean_objective': 0.01874121089006714, 'std_objective': 0.0, 'min_objective': 0.01874121089006714, 'max_objective': 0.01874121089006714, 'mean_gap_to_exact': 2.1315758146879527e-05, 'max_gap_to_exact': 2.1315758146879527e-05}
+
+
+USED_SYNTHETIC_PRICES = True
+O-set: ['IWM', 'LQD', 'SPY', 'UUP', 'VNQI'], exact_objective=0.018763
+
+SEED_RESULT seed=3 objective=0.016916 gap=0.001847 matches_exact=False repair_applied=False ok=True error=None
+
+BATCH_SUMMARY seeds=3-3 {'n_seeds': 1, 'n_ok': 1, 'n_failed': 0, 'n_matches_exact': 0, 'n_repair_applied': 0, 'mean_objective': 0.016915567285040914, 'std_objective': 0.0, 'min_objective': 0.016915567285040914, 'max_objective': 0.016915567285040914, 'mean_gap_to_exact': 0.0018469593631731049, 'max_gap_to_exact': 0.0018469593631731049}
+
+
+USED_SYNTHETIC_PRICES = True
+O-set: ['IWM', 'LQD', 'SPY', 'UUP', 'VNQI'], exact_objective=0.018763
+
+SEED_RESULT seed=4 objective=0.017953 gap=0.000810 matches_exact=False repair_applied=False ok=True error=None
+
+BATCH_SUMMARY seeds=4-4 {'n_seeds': 1, 'n_ok': 1, 'n_failed': 0, 'n_matches_exact': 0, 'n_repair_applied': 0, 'mean_objective': 0.01795258932948293, 'std_objective': 0.0, 'min_objective': 0.01795258932948293, 'max_objective': 0.01795258932948293, 'mean_gap_to_exact': 0.0008099373187310903, 'max_gap_to_exact': 0.0008099373187310903}
+
+
+USED_SYNTHETIC_PRICES = True
+O-set: ['IWM', 'LQD', 'SPY', 'UUP', 'VNQI'], exact_objective=0.018763
+
+SEED_RESULT seed=5 objective=0.018741 gap=0.000021 matches_exact=False repair_applied=False ok=True error=None
+
+BATCH_SUMMARY seeds=5-5 {'n_seeds': 1, 'n_ok': 1, 'n_failed': 0, 'n_matches_exact': 0, 'n_repair_applied': 0, 'mean_objective': 0.01874121089006714, 'std_objective': 0.0, 'min_objective': 0.01874121089006714, 'max_objective': 0.01874121089006714, 'mean_gap_to_exact': 2.1315758146879527e-05, 'max_gap_to_exact': 2.1315758146879527e-05}
+
+
+USED_SYNTHETIC_PRICES = True
+O-set: ['IWM', 'LQD', 'SPY', 'UUP', 'VNQI'], exact_objective=0.018763
+
+SEED_RESULT seed=6 objective=0.018762 gap=0.000000 matches_exact=False repair_applied=True ok=True error=None
+
+BATCH_SUMMARY seeds=6-6 {'n_seeds': 1, 'n_ok': 1, 'n_failed': 0, 'n_matches_exact': 0, 'n_repair_applied': 1, 'mean_objective': 0.01876229504273193, 'std_objective': 0.0, 'min_objective': 0.01876229504273193, 'max_objective': 0.01876229504273193, 'mean_gap_to_exact': 2.3160548208792098e-07, 'max_gap_to_exact': 2.3160548208792098e-07}
+
+
+USED_SYNTHETIC_PRICES = True
+O-set: ['IWM', 'LQD', 'SPY', 'UUP', 'VNQI'], exact_objective=0.018763
+
+SEED_RESULT seed=7 objective=0.017503 gap=0.001259 matches_exact=False repair_applied=False ok=True error=None
+
+BATCH_SUMMARY seeds=7-7 {'n_seeds': 1, 'n_ok': 1, 'n_failed': 0, 'n_matches_exact': 0, 'n_repair_applied': 0, 'mean_objective': 0.01750339623977047, 'std_objective': 0.0, 'min_objective': 0.01750339623977047, 'max_objective': 0.01750339623977047, 'mean_gap_to_exact': 0.0012591304084435505, 'max_gap_to_exact': 0.0012591304084435505}
+
+
+USED_SYNTHETIC_PRICES = True
+O-set: ['IWM', 'LQD', 'SPY', 'UUP', 'VNQI'], exact_objective=0.018763
+
+SEED_RESULT seed=8 objective=0.018741 gap=0.000021 matches_exact=False repair_applied=False ok=True error=None
+
+BATCH_SUMMARY seeds=8-8 {'n_seeds': 1, 'n_ok': 1, 'n_failed': 0, 'n_matches_exact': 0, 'n_repair_applied': 0, 'mean_objective': 0.01874121089006714, 'std_objective': 0.0, 'min_objective': 0.01874121089006714, 'max_objective': 0.01874121089006714, 'mean_gap_to_exact': 2.1315758146879527e-05, 'max_gap_to_exact': 2.1315758146879527e-05}
+
+
+USED_SYNTHETIC_PRICES = True
+O-set: ['IWM', 'LQD', 'SPY', 'UUP', 'VNQI'], exact_objective=0.018763
+
+SEED_RESULT seed=9 objective=0.017679 gap=0.001083 matches_exact=False repair_applied=False ok=True error=None
+
+BATCH_SUMMARY seeds=9-9 {'n_seeds': 1, 'n_ok': 1, 'n_failed': 0, 'n_matches_exact': 0, 'n_repair_applied': 0, 'mean_objective': 0.01767938984710289, 'std_objective': 0.0, 'min_objective': 0.01767938984710289, 'max_objective': 0.01767938984710289, 'mean_gap_to_exact': 0.0010831368011111273, 'max_gap_to_exact': 0.0010831368011111273}
