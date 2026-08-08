@@ -53,7 +53,7 @@ from qiskit.circuit.library import QAOAAnsatz
 from qiskit.primitives import StatevectorSampler
 
 from vqportfolio.config import ASSET_CLASS_OF
-from vqportfolio.quantum.qubo import QuboBuildResult
+from vqportfolio.quantum.qubo import QuboBuildResult, vectorized_brute_force
 
 
 @dataclass
@@ -74,14 +74,13 @@ def _bitstring_to_x(bitstring: str, n: int) -> np.ndarray:
 
 
 def _brute_force_exact(qubo, n: int) -> tuple[np.ndarray, float]:
-    """Exact minimum by enumeration. Fine up to ~20-25 vars."""
-    best_x, best_val = None, np.inf
-    for bits in product([0, 1], repeat=n):
-        x = np.array(bits)
-        val = qubo.objective.evaluate(x)
-        if val < best_val:
-            best_val, best_x = val, x
-    return best_x, best_val
+    """Exact minimum by enumeration, via the vectorized implementation in
+    quantum/qubo.py. (Previously a per-bitstring itertools.product loop --
+    118s at 18 qubits -- consolidated into the single vectorized
+    implementation shared with validation/scaling_ablation.py; 0.66s for
+    the same instance.) `n` is accepted for backward-compatible call sites
+    but unused -- qubo.get_num_binary_vars() is the source of truth."""
+    return vectorized_brute_force(qubo)
 
 
 def relax_and_warm_start(qubo, n: int) -> np.ndarray:
@@ -217,12 +216,21 @@ def solve_with_qaoa_and_validate(
     reps: int = 1,
     seed: int = 42,
     n_restarts: int = 3,
+    maxiter: int = 60,
+    shots: int = 1024,
 ) -> SolveComparison:
+    """`maxiter`/`shots` added and threaded through to _run_qaoa_warm_start --
+    previously this function silently dropped both (its signature had no
+    such parameters at all), so any caller passing them (e.g.
+    validation/run_multi_seed_sweep.py, which passes maxiter=40, shots=512
+    for a faster per-seed sweep) would hit a TypeError on the first call.
+    Defaults match _run_qaoa_warm_start's own defaults, so existing callers
+    that don't pass these get identical behavior to before."""
     qubo = qubo_result.qubo
     n = qubo.get_num_binary_vars()
 
     qaoa_x, qaoa_val, restarts_used = _run_qaoa_warm_start(
-        qubo, reps=reps, seed=seed, n_restarts=n_restarts,
+        qubo, reps=reps, seed=seed, n_restarts=n_restarts, maxiter=maxiter, shots=shots,
     )
     exact_x, exact_val = _brute_force_exact(qubo, n)
 
